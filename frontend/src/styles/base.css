@@ -1,0 +1,21 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--tp-font);
+  background: var(--tp-navy);
+  color: var(--tp-text);
+}
+
+.tp-placeholder {
+  padding: 24px;
+  line-height: 1.5;
+}
+
+.tp-placeholder a {
+  color: var(--tp-gold);
+}

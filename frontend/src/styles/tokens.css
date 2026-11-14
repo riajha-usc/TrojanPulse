@@ -1,0 +1,37 @@
+/* Design tokens taken from the wireframes. Use these instead of raw hex values. */
+
+:root {
+  /* student app */
+  --tp-navy: #0b1220;
+  --tp-navy-raised: #18233a;
+  --tp-navy-card: #1a2740;
+  --tp-navy-border: #3a4a6b;
+  --tp-text: #f4f6fa;
+  --tp-text-muted: #c9d3e6;
+  --tp-gold: #ffd60a;
+  --tp-safe: #39ff88;
+  --tp-safe-ink: #062414;
+  --tp-you: #4da3ff;
+
+  /* emergency screens */
+  --tp-black: #000000;
+  --tp-alert: #ff2d4a;
+  --tp-alert-solid: #e11d2e;
+  --tp-alert-deep: #b3122a;
+  --tp-ok: #30d158;
+  --tp-grey-card: #2b2b2e;
+
+  /* dashboard */
+  --tp-dash-bg: #0e0f12;
+  --tp-dash-panel: #16181d;
+  --tp-dash-border: #25282f;
+  --tp-dash-muted: #a9adb6;
+  --tp-chart-red: #c8102e;
+  --tp-chart-gold: #f5b400;
+  --tp-chart-forecast: #22b8cf;
+
+  --tp-font: Inter, system-ui, sans-serif;
+  --tp-font-display: "Space Grotesk", Inter, system-ui, sans-serif;
+  --tp-radius: 14px;
+  --tp-tap: 44px; /* minimum touch target */
+}
