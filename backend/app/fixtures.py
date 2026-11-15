@@ -1,7 +1,7 @@
 """Example data returned by the stub endpoints.
 
 Every value here is a placeholder so the frontends can build against real
-URLs from the first commit. Coordinates are approximate. Replace each stub
+URLs from the first commit. Coordinates match data/places.py. Replace each stub
 with real logic behind the same schema, then delete the fixture it used.
 """
 
@@ -11,9 +11,10 @@ from app import schemas as s
 
 NOW = datetime(2026, 11, 14, 8, 41, 7, tzinfo=timezone.utc)
 
-LEAVEY = s.LatLng(lat=34.0217, lng=-118.2828)
-ELLENDALE_28TH = s.LatLng(lat=34.0297, lng=-118.2915)
-HOOVER_30TH = s.LatLng(lat=34.0262, lng=-118.2841)
+LEAVEY = s.LatLng(lat=34.0221, lng=-118.2829)
+ELLENDALE_28TH = s.LatLng(lat=34.0294, lng=-118.2888)
+HOOVER_30TH = s.LatLng(lat=34.0274, lng=-118.2840)
+HOOVER_28TH = s.LatLng(lat=34.0292, lng=-118.2840)
 
 USER = s.User(id="u_demo", email="demo@usc.edu", display_name="Demo Trojan")
 
@@ -21,9 +22,9 @@ SAFEST = s.RouteOption(
     kind="safest",
     path=[
         LEAVEY,
-        s.LatLng(lat=34.0235, lng=-118.2841),
+        s.LatLng(lat=34.0240, lng=-118.2840),
         HOOVER_30TH,
-        s.LatLng(lat=34.0297, lng=-118.2841),
+        HOOVER_28TH,
         ELLENDALE_28TH,
     ],
     minutes=14,
@@ -33,7 +34,7 @@ SAFEST = s.RouteOption(
 
 FASTEST = s.RouteOption(
     kind="fastest",
-    path=[LEAVEY, s.LatLng(lat=34.0235, lng=-118.2915), ELLENDALE_28TH],
+    path=[LEAVEY, s.LatLng(lat=34.0240, lng=-118.2889), ELLENDALE_28TH],
     minutes=11,
     distance_m=930,
     notes=["1 light out", "Low foot traffic"],
@@ -42,7 +43,7 @@ FASTEST = s.RouteOption(
 HAZARD = s.Hazard(
     id="hz_1",
     type="light_out",
-    location=s.LatLng(lat=34.0270, lng=-118.2915),
+    location=s.LatLng(lat=34.0289, lng=-118.2889),
     report_count=4,
     summary="Streetlight out on Ellendale Pl, 4 reports this week.",
     updated_at=NOW,
