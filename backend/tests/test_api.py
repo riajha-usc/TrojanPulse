@@ -124,3 +124,66 @@ def test_summary_is_built_from_data_and_live_state(client, monkeypatch):
     assert body["top_hazard_summary"] == "Streetlight out on Ellendale Pl."
 
 
+def test_walk_lifecycle(client):
+    walk = start_walk(client)
+    assert walk["status"] == "active" and walk["safe_phrase"] == "red umbrella"
+    assert client.get(f"/walks/{walk['id']}").json()["id"] == walk["id"]
+    assert client.post(f"/walks/{walk['id']}/end").json()["status"] == "ended"
+    assert client.post(f"/walks/{walk['id']}/audio", files=AUDIO).status_code == 409
+    assert client.post("/walks/missing/audio", files=AUDIO).status_code == 404
+
+
+def test_audio_quiet_chunk_does_not_trigger(client, heard):
+    walk = start_walk(client)
+    heard["text"] = "almost home now"
+    result = client.post(f"/walks/{walk['id']}/audio", files=AUDIO).json()
+    assert result["triggered"] is False and result["reasons"] == []
+
+
+def test_audio_safe_phrase_triggers_even_when_split(client, heard):
+    walk = start_walk(client)
+    heard["text"] = "please stop. Red"
+    assert client.post(f"/walks/{walk['id']}/audio", files=AUDIO).json()["triggered"] is False
+    heard["text"] = "umbrella"
+    result = client.post(
+        f"/walks/{walk['id']}/audio",
+        files=AUDIO,
+        data={"sound_label": "Shouting", "sound_score": "0.9", "sudden_stop": "true"},
+    ).json()
+    assert result["triggered"] is True
+    assert result["reasons"] == ["Safe phrase heard", "Shouting 0.90", "Sudden stop"]
+
+
+def test_alert_is_stored_broadcast_and_resolved(client):
+    walk = start_walk(client)
+    start_walk(client)  # a second walker in the same pod
+    assert client.get("/alerts").json()["alerts"] == []
+
+    with client.websocket_connect("/ws") as dashboard:
+        created = client.post(
+            "/alerts",
+            json={"walk_id": walk["id"], "source": "voice", "location": LOC, "transcript": "Red umbrella."},
+        )
+        assert created.status_code == 201
+        alert = created.json()
+        assert alert["pod_notified"] == 1 and alert["contacts_notified"] == 2
+
+        event = dashboard.receive_json()
+        assert event["type"] == "alert.created" and event["payload"]["id"] == alert["id"]
+        assert client.get("/dashboard/summary").json()["open_alerts"] == 1
+
+        assert client.post(f"/alerts/{alert['id']}/resolve").json()["status"] == "resolved"
+        assert dashboard.receive_json()["type"] == "alert.resolved"
+
+    assert client.get("/alerts").json()["alerts"] == []
+    assert client.post("/alerts", json={"walk_id": "missing", "source": "manual", "location": LOC}).status_code == 404
+    assert client.post("/alerts/missing/resolve").status_code == 404
+
+
+def test_location_update_is_relayed_to_other_clients(client):
+    walk = start_walk(client)
+    update = {"type": "location.update", "payload": {"walk_id": walk["id"], "location": LOC}}
+    with client.websocket_connect("/ws") as phone, client.websocket_connect("/ws") as dashboard:
+        phone.send_json({"nonsense": True})  # malformed messages are ignored
+        phone.send_json(update)
+        assert dashboard.receive_json() == update
