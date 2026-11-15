@@ -22,38 +22,53 @@ function formatLabel(label: string): string {
 }
 
 function BarChart({ series }: { series: Series }) {
-  const max = Math.max(1, ...series.buckets.map((b) => b.requests));
-  const firstForecast = series.buckets.findIndex((b) => b.is_forecast);
-  // Show about four axis labels so they never collide.
-  const step = Math.max(1, Math.ceil(series.buckets.length / 4));
+  const { buckets } = series;
   const name = SERVICE_NAMES[series.service] ?? series.service;
-  // "Now" marks the first forecast bar; drop time labels right next to it so they don't touch.
-  const axisLabel = (i: number) => {
-    if (i === firstForecast) return "Now";
-    if (firstForecast >= 0 && Math.abs(i - firstForecast) === 1) return "";
-    return i % step === 0 ? formatLabel(series.buckets[i].label) : "";
-  };
+  const peak = Math.max(0, ...buckets.map((b) => b.requests));
+  const max = Math.max(1, peak);
+  const nowIndex = buckets.findIndex((b) => b.is_forecast);
+  const last = buckets.length - 1;
+  // Axis: first bar, "Now" under the first forecast bar, last bar. Skip any
+  // label that would sit within two bars of "Now".
+  const near = (i: number) => nowIndex >= 0 && Math.abs(i - nowIndex) <= 2;
+  const ticks = [
+    !near(0) && { i: 0, text: formatLabel(buckets[0]?.label ?? "") },
+    nowIndex >= 0 && { i: nowIndex, text: "Now" },
+    last > 0 && !near(last) && { i: last, text: formatLabel(buckets[last].label) },
+  ].filter(Boolean) as { i: number; text: string }[];
 
   return (
     <figure className="dash-chart">
-      <figcaption className="dash-chart__title">{name}</figcaption>
-      {series.buckets.length === 0 ? (
+      <figcaption className="dash-chart__head">
+        <b>{name}</b>
+        {buckets.length > 0 && <span>peak {peak}</span>}
+      </figcaption>
+      {buckets.length === 0 ? (
         <p className="dash-status">No data yet.</p>
       ) : (
         <>
           <div className="dash-chart__bars" role="img" aria-label={`${name}, requests per bucket`}>
-            {series.buckets.map((b) => (
+            {buckets.map((b) => (
               <div
                 key={b.label}
                 className={`dash-chart__bar dash-chart__bar--${b.is_forecast ? "forecast" : series.service}`}
-                style={{ height: `${Math.max(3, (b.requests / max) * 100)}%` }}
+                style={{ height: `${Math.max(4, (b.requests / max) * 100)}%` }}
                 title={`${formatLabel(b.label)}: ${b.requests} requests${b.is_forecast ? " (forecast)" : ""}`}
               />
             ))}
           </div>
           <div className="dash-chart__axis" aria-hidden="true">
-            {series.buckets.map((b, i) => (
-              <span key={b.label}>{axisLabel(i)}</span>
+            {ticks.map((t) => (
+              <span
+                key={t.i}
+                style={
+                  t.i === last
+                    ? { right: 0 }
+                    : { left: `calc(${t.i} * (100% + 4px) / ${buckets.length})` }
+                }
+              >
+                {t.text}
+              </span>
             ))}
           </div>
         </>
@@ -67,8 +82,14 @@ export function TransitForecastPanel() {
 
   return (
     <Panel
-      title="Predictive transit bottlenecks"
-      subtitle="Requests per 30 minutes. Teal bars are the forecast."
+      id="transit"
+      className="dash-forecast"
+      title="Transit forecast"
+      subtitle={
+        <>
+          Per 30 min · <span className="dash-forecast__key">teal is forecast</span>
+        </>
+      }
     >
       {data ? (
         <>

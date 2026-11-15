@@ -6,6 +6,7 @@ interface LiveAlertPanelProps {
   alerts: Alert[];
   error: string | null;
   onResolve: (alertId: string) => Promise<void>;
+  onViewOnMap: (alert: Alert) => void;
 }
 
 /** created_at is UTC; show it in the viewer's local time, e.g. "12:41:07 AM". */
@@ -17,12 +18,28 @@ function localTime(iso: string): string {
   });
 }
 
+const SOURCE_TEXT: Record<Alert["source"], string> = {
+  voice: "voice trigger",
+  manual: "Hold for help",
+};
+
+function Notified({ label, count }: { label: string; count: number }) {
+  return (
+    <div className="dash-alert__row">
+      {label}
+      {count > 0 ? <b>Notified · {count}</b> : <span>Not notified</span>}
+    </div>
+  );
+}
+
 function AlertCard({
   alert,
   onResolve,
+  onViewOnMap,
 }: {
   alert: Alert;
   onResolve: LiveAlertPanelProps["onResolve"];
+  onViewOnMap: LiveAlertPanelProps["onViewOnMap"];
 }) {
   const [busy, setBusy] = useState(false);
   const [failed, setFailed] = useState<string | null>(null);
@@ -39,14 +56,18 @@ function AlertCard({
   };
 
   return (
-    <article className="dash-alert" aria-live="assertive">
+    <article className="dash-card dash-alert" aria-live="assertive">
       <header className="dash-alert__head">
-        <h2 className="dash-panel__title">Live alert</h2>
-        <span className="dash-alert__when">
-          {localTime(alert.created_at)}
-          {alert.location_label && `, ${alert.location_label}`}
-        </span>
+        <h2 className="dash-card__title">
+          <span className="dash-alert__dot" aria-hidden="true" />
+          Live alert
+        </h2>
+        <span className="dash-alert__when">{localTime(alert.created_at)}</span>
       </header>
+      <p className="dash-card__subtitle">
+        {alert.location_label ? `${alert.location_label} · ` : ""}
+        {SOURCE_TEXT[alert.source]}
+      </p>
       {alert.transcript && (
         <blockquote className="dash-alert__quote">“{alert.transcript}”</blockquote>
       )}
@@ -57,12 +78,18 @@ function AlertCard({
           ))}
         </ul>
       )}
-      <p className="dash-alert__notified">
-        Pod notified: {alert.pod_notified}. Contacts notified: {alert.contacts_notified}.
-      </p>
-      <button className="dash-alert__resolve" onClick={resolve} disabled={busy}>
-        {busy ? "Resolving…" : "Mark resolved"}
-      </button>
+      <div className="dash-alert__rows">
+        <Notified label="Walking pod" count={alert.pod_notified} />
+        <Notified label="Emergency contacts" count={alert.contacts_notified} />
+      </div>
+      <div className="dash-alert__actions">
+        <button className="dash-btn dash-btn--primary" onClick={resolve} disabled={busy}>
+          {busy ? "Resolving…" : "Mark resolved"}
+        </button>
+        <button className="dash-btn" onClick={() => onViewOnMap(alert)}>
+          View on map
+        </button>
+      </div>
       {failed && (
         <p className="dash-alert__error" role="alert">
           Couldn't resolve: {failed}
@@ -72,11 +99,11 @@ function AlertCard({
   );
 }
 
-export function LiveAlertPanel({ alerts, error, onResolve }: LiveAlertPanelProps) {
+export function LiveAlertPanel({ alerts, error, onResolve, onViewOnMap }: LiveAlertPanelProps) {
   if (alerts.length === 0) {
     return (
-      <section className="dash-panel dash-alert--calm">
-        <h2 className="dash-panel__title">Live alert</h2>
+      <section className="dash-card dash-alert--calm">
+        <h2 className="dash-card__title">Live alert</h2>
         <p className="dash-alert__calm">
           <span className="dash-alert__calm-dot" aria-hidden="true" />
           {error ? `Couldn't load alerts. (${error})` : "No open alerts"}
@@ -87,7 +114,7 @@ export function LiveAlertPanel({ alerts, error, onResolve }: LiveAlertPanelProps
   return (
     <div className="dash-alerts">
       {alerts.map((a) => (
-        <AlertCard key={a.id} alert={a} onResolve={onResolve} />
+        <AlertCard key={a.id} alert={a} onResolve={onResolve} onViewOnMap={onViewOnMap} />
       ))}
     </div>
   );
