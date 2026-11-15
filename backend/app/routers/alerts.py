@@ -5,14 +5,33 @@ about an alert after the countdown expires or the student taps Send now.
 Creating or resolving an alert is pushed to every connected client.
 """
 
+from typing import Optional
+
 from fastapi import APIRouter, HTTPException
 
 from app.config import settings
-from app.schemas import Alert, AlertCreateRequest, AlertsResponse
+from app.schemas import Alert, AlertCreateRequest, AlertsResponse, LatLng
 from app.store import new_id, now, store
 from app.ws import hub
 
 router = APIRouter(prefix="/alerts", tags=["alerts"])
+
+
+CAMPUS_CENTER = (34.0235, -118.2855)
+CAMPUS_RADIUS_M = 3000
+
+
+def street_label(location: LatLng) -> Optional[str]:
+    """'Near Hoover St' from the street graph. None when off campus or the graph is missing."""
+    try:
+        from data.graph import meters, nearest_street, short_street
+
+        if meters((location.lat, location.lng), CAMPUS_CENTER) > CAMPUS_RADIUS_M:
+            return None
+        street = short_street(nearest_street(location.lat, location.lng))
+    except Exception:
+        return None
+    return f"Near {street}" if street else None
 
 
 @router.get("", response_model=AlertsResponse)
@@ -33,7 +52,7 @@ async def create_alert(body: AlertCreateRequest) -> Alert:
         status="open",
         source=body.source,
         location=body.location,
-        location_label=body.location_label,
+        location_label=body.location_label or street_label(body.location),
         transcript=body.transcript,
         reasons=body.reasons,
         pod_notified=store.pod_size(walk.pod_id, excluding_walk_id=walk.id),

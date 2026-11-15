@@ -199,3 +199,14 @@ def test_alert_counts_the_members_of_the_joined_pod(client):
     alert = client.post("/alerts", json={"walk_id": walk["id"], "source": "manual", "location": LOC}).json()
     assert alert["pod_notified"] == len(joined["members"]) - 1 == len(pod["members"])
 
+
+def test_alert_gets_a_street_name_when_the_app_sends_no_label(client):
+    walk = start_walk(client)
+    body = {"walk_id": walk["id"], "source": "manual", "location": {"lat": 34.0274, "lng": -118.284}}
+    assert client.post("/alerts", json=body).json()["location_label"] == "Near Hoover St"
+
+    labelled = client.post("/alerts", json={**body, "location_label": "Hoover St near 30th St"}).json()
+    assert labelled["location_label"] == "Hoover St near 30th St"
+
+    far = client.post("/alerts", json={**body, "location": {"lat": 40.7, "lng": -74.0}}).json()
+    assert far["location_label"] is None
