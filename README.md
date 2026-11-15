@@ -10,12 +10,7 @@ A voice-triggered safety net for students walking alone at USC,<br/>
 with walking pods, safer routes and a live campus dashboard.<br/>
 Built at the AI@USC hackathon, November 14 to 15, 2026.
 
-**[Open the live app](https://trojan-pulse.replit.app)** · **[Campus Pulse live dashboard](https://trojan-pulse.replit.app/dashboard)**
-
-**Video link:** [youtu.be/lXa7X5mqJLU](https://youtu.be/lXa7X5mqJLU)
-
-
-**[Technical documentation](docs/technical-documentation.pdf)**
+**[Open the live app](https://trojan-pulse.replit.app)** · **[Campus Pulse live dashboard](https://trojan-pulse.replit.app/dashboard)** · **[Watch the demo video](https://youtu.be/lXa7X5mqJLU)** · **[Technical documentation](docs/technical-documentation.pdf)**
 
 ![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)
 ![React](https://img.shields.io/badge/React_18-20232A?logo=react&logoColor=61DAFB)
