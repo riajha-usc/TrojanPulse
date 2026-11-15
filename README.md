@@ -1,13 +1,60 @@
+<div align="center">
+
 # TrojanPulse
 
-Start a walk, and you are never walking alone. A peer-safety web app for late-night walks around USC, built at AI@USC (November 14 to 15, 2026).
+### Start a walk, and you are never walking alone.
+
+A peer-safety web app for late-night walks around USC.<br/>
+Built at the AI@USC hackathon, November 14 to 15, 2026.
+
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)
+![React](https://img.shields.io/badge/React_18-20232A?logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
+![Leaflet](https://img.shields.io/badge/Leaflet-199900?logo=leaflet&logoColor=white)
+![Groq Whisper](https://img.shields.io/badge/Groq-Whisper-F55036)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?logo=scikitlearn&logoColor=white)
+![OpenStreetMap](https://img.shields.io/badge/OpenStreetMap-7EBC6F?logo=openstreetmap&logoColor=white)
+
+<img src="docs/images/app.png" alt="Student app: plan a walk, Walk Mode, the cancel countdown and the alert sent screen" width="100%"/>
+
+</div>
+
+## Why
+
+Most safety tools ask for a free hand and a calm head at the exact moment a student has neither. And the people who could fix a dark street, such as student government, only hear about it later, if at all.
+
+TrojanPulse covers both. A student starts a walk and keeps the phone in a pocket. If something goes wrong, saying one phrase is enough. Campus leaders see what is happening tonight on one screen.
 
 ## What it does
 
-- **Walk Mode:** safest versus fastest route, walking pods of verified @usc.edu students, and a hands-free voice trigger with a 10 second cancel countdown.
-- **Campus Pulse:** a dashboard for USG and GSG with live alerts, walk demand and a ride demand forecast.
+| | Feature | How it works |
+| :-: | --- | --- |
+| 🗺️ | **Safest or fastest route** | Both run on the real OpenStreetMap street graph. The safest route makes a street cost more where a light is out, an incident was recent, nothing is open nearby or few people walk. |
+| 👥 | **Walking pods** | Students heading within 300 m of the same place, within 10 minutes of each other, are matched at a well-lit meeting point. Only first names and last initials are shared. |
+| 🎙️ | **Hands-free voice trigger** | During a walk the phone sends 3 second audio clips for speech to text. Saying the safe phrase starts the alert. No tap needed. |
+| ⏱️ | **10 second cancel** | Nothing leaves the phone until the countdown ends, so a false trigger costs one tap. |
+| 🚨 | **Live alert** | The alert appears on the dashboard without a refresh, about a tenth of a second later in our tests, with the transcript and the nearest street. |
+| 📍 | **One-tap hazard reports** | Light out, blocked path or other. Reports within 30 m are grouped and shown on every route map and on the dashboard. |
+| 📞 | **DPS one tap away** | A call shortcut sits on every emergency screen. |
 
-Data is simulated for the hackathon. The pipelines that use it are real.
+## How the voice trigger works
+
+```mermaid
+flowchart LR
+    A["🎙️ Walk Mode<br/>3 s audio clips"] --> B["Groq Whisper<br/>speech to text"]
+    B --> C{"Trigger<br/>score"}
+    C -- "below 0.75" --> A
+    C -- "safe phrase<br/>or 0.75 and above" --> D["⏱️ 10 s countdown<br/>on the phone"]
+    D -- "I'm safe, cancel" --> A
+    D -- "not cancelled" --> E["🚨 Alert"]
+    E --> F["Walking pod<br/>and contacts"]
+    E --> G["Campus Pulse<br/>live over WebSocket"]
+```
+
+- **The safe phrase alone is enough.** It is matched word by word with a small tolerance, so "red umbrela" still counts and "blue umbrella" does not.
+- **Other signals add up.** Distress phrases, a distress sound and a sudden stop are combined into one score. The app sends speech today. The endpoint already accepts the other two.
+- **Phrases split across clips still match.** The last two transcripts are joined before scoring.
+- **Privacy.** The microphone is on only during a walk. Audio is sent for transcription and is not stored by TrojanPulse.
 
 ## Run it
 
