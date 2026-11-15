@@ -70,11 +70,8 @@ export interface MapProps {
   variant?: "mobile" | "dashboard";
 }
 
-// CARTO dark tiles. CARTO now needs a free API key, set as VITE_CARTO_KEY in
-// .env.local (see .env.example). Without it the tiles still load, but carry an
-// "API KEY REQUIRED" watermark. The key is visible to anyone using the site, as
-// with any browser map key, so restrict it to your domains in the CARTO dashboard.
 const CARTO_KEY = import.meta.env.VITE_CARTO_KEY?.trim();
+
 const TILE_URL =
   "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" +
   (CARTO_KEY ? `?key=${encodeURIComponent(CARTO_KEY)}` : "");
@@ -85,6 +82,7 @@ if (!CARTO_KEY && import.meta.env.DEV) {
       "Add your CARTO basemaps key to frontend/.env.local and restart npm run dev.",
   );
 }
+
 const TILE_ATTRIBUTION =
   '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
 

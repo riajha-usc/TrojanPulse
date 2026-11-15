@@ -4,1158 +4,1158 @@
  */
 
 export interface paths {
-    "/auth/login": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Login */
-        post: operations["login_auth_login_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+  "/auth/login": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/routes": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get Routes */
-        get: operations["get_routes_routes_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    /** Login */
+    post: operations["login_auth_login_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/routes": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/hazards": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** List Hazards */
-        get: operations["list_hazards_hazards_get"];
-        put?: never;
-        /** Report Hazard */
-        post: operations["report_hazard_hazards_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /** Get Routes */
+    get: operations["get_routes_routes_get"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/hazards": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/pods": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Find Pods */
-        get: operations["find_pods_pods_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /** List Hazards */
+    get: operations["list_hazards_hazards_get"];
+    put?: never;
+    /** Report Hazard */
+    post: operations["report_hazard_hazards_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/pods": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/pods/{pod_id}/join": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Join Pod */
-        post: operations["join_pod_pods__pod_id__join_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /** Find Pods */
+    get: operations["find_pods_pods_get"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/pods/{pod_id}/join": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/walks": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Start Walk */
-        post: operations["start_walk_walks_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    /** Join Pod */
+    post: operations["join_pod_pods__pod_id__join_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/walks": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/walks/{walk_id}/end": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** End Walk */
-        post: operations["end_walk_walks__walk_id__end_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    /** Start Walk */
+    post: operations["start_walk_walks_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/walks/{walk_id}/end": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/walks/{walk_id}/audio": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Score Audio Chunk */
-        post: operations["score_audio_chunk_walks__walk_id__audio_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    /** End Walk */
+    post: operations["end_walk_walks__walk_id__end_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/walks/{walk_id}/audio": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/alerts": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** List Open Alerts */
-        get: operations["list_open_alerts_alerts_get"];
-        put?: never;
-        /** Create Alert */
-        post: operations["create_alert_alerts_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    /** Score Audio Chunk */
+    post: operations["score_audio_chunk_walks__walk_id__audio_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/alerts": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/alerts/{alert_id}/resolve": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Resolve Alert */
-        post: operations["resolve_alert_alerts__alert_id__resolve_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /** List Open Alerts */
+    get: operations["list_open_alerts_alerts_get"];
+    put?: never;
+    /** Create Alert */
+    post: operations["create_alert_alerts_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/alerts/{alert_id}/resolve": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/dashboard/summary": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Summary */
-        get: operations["summary_dashboard_summary_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    /** Resolve Alert */
+    post: operations["resolve_alert_alerts__alert_id__resolve_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/dashboard/summary": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/dashboard/heatmap": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Heatmap */
-        get: operations["heatmap_dashboard_heatmap_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /** Summary */
+    get: operations["summary_dashboard_summary_get"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/dashboard/heatmap": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/dashboard/forecast": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Forecast */
-        get: operations["forecast_dashboard_forecast_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /** Heatmap */
+    get: operations["heatmap_dashboard_heatmap_get"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/dashboard/forecast": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/dashboard/wait-times": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Wait Times */
-        get: operations["wait_times_dashboard_wait_times_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /** Forecast */
+    get: operations["forecast_dashboard_forecast_get"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/dashboard/wait-times": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/dashboard/corridors": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Corridors */
-        get: operations["corridors_dashboard_corridors_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /** Wait Times */
+    get: operations["wait_times_dashboard_wait_times_get"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/dashboard/corridors": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/health": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Health */
-        get: operations["health_health_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /** Corridors */
+    get: operations["corridors_dashboard_corridors_get"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/health": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
+    /** Health */
+    get: operations["health_health_get"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
-    schemas: {
-        /** Alert */
-        Alert: {
-            /** Id */
-            id: string;
-            /** Walk Id */
-            walk_id: string;
-            /** User Display Name */
-            user_display_name: string;
-            /**
-             * Status
-             * @enum {string}
-             */
-            status: "open" | "resolved";
-            /**
-             * Source
-             * @enum {string}
-             */
-            source: "voice" | "manual";
-            location: components["schemas"]["LatLng"];
-            /** Location Label */
-            location_label?: string | null;
-            /** Transcript */
-            transcript?: string | null;
-            /** Reasons */
-            reasons?: string[];
-            /** Pod Notified */
-            pod_notified: number;
-            /** Contacts Notified */
-            contacts_notified: number;
-            /**
-             * Created At
-             * Format: date-time
-             */
-            created_at: string;
-            /** Resolved At */
-            resolved_at?: string | null;
-        };
-        /** AlertCreateRequest */
-        AlertCreateRequest: {
-            /** Walk Id */
-            walk_id: string;
-            /**
-             * Source
-             * @enum {string}
-             */
-            source: "voice" | "manual";
-            location: components["schemas"]["LatLng"];
-            /** Location Label */
-            location_label?: string | null;
-            /** Transcript */
-            transcript?: string | null;
-            /** Reasons */
-            reasons?: string[];
-        };
-        /** AlertsResponse */
-        AlertsResponse: {
-            /** Alerts */
-            alerts: components["schemas"]["Alert"][];
-        };
-        /**
-         * AudioChunkResponse
-         * @description Result of scoring one audio chunk sent during a walk.
-         */
-        AudioChunkResponse: {
-            /** Transcript */
-            transcript: string;
-            /** Sound Label */
-            sound_label?: string | null;
-            /** Sound Score */
-            sound_score: number;
-            /**
-             * Alert Score
-             * @description Fused score from speech, sound and movement
-             */
-            alert_score: number;
-            /** Triggered */
-            triggered: boolean;
-            /**
-             * Reasons
-             * @description Shown on the countdown screen
-             */
-            reasons?: string[];
-        };
-        /** Body_score_audio_chunk_walks__walk_id__audio_post */
-        Body_score_audio_chunk_walks__walk_id__audio_post: {
-            /**
-             * Audio
-             * @description One audio chunk. Format to be agreed.
-             */
-            audio: string;
-            /**
-             * Sound Label
-             * @description Top label from the in-browser classifier
-             */
-            sound_label?: string | null;
-            /**
-             * Sound Score
-             * @description Score for sound_label, 0 to 1
-             * @default 0
-             */
-            sound_score: number;
-            /**
-             * Sudden Stop
-             * @description Movement signal from the phone
-             * @default false
-             */
-            sudden_stop: boolean;
-        };
-        /** Corridor */
-        Corridor: {
-            /** From Label */
-            from_label: string;
-            /** To Label */
-            to_label: string;
-            /** Walks */
-            walks: number;
-        };
-        /** CorridorsResponse */
-        CorridorsResponse: {
-            /** Items */
-            items: components["schemas"]["Corridor"][];
-        };
-        /** DashboardSummary */
-        DashboardSummary: {
-            /**
-             * Simulated
-             * @description True while the data layer is simulated; drives the badge
-             */
-            simulated: boolean;
-            /** Active Walks */
-            active_walks: number;
-            /** Pods In Progress */
-            pods_in_progress: number;
-            /** Active Hazard Reports */
-            active_hazard_reports: number;
-            /** Open Alerts */
-            open_alerts: number;
-            /** Median Response S */
-            median_response_s: number;
-            /** Top Hazard Summary */
-            top_hazard_summary: string;
-        };
-        /** ForecastBucket */
-        ForecastBucket: {
-            /**
-             * Label
-             * @description Bucket start as shown on the axis, for example 00:30
-             */
-            label: string;
-            /** Requests */
-            requests: number;
-            /** Is Forecast */
-            is_forecast: boolean;
-        };
-        /** ForecastResponse */
-        ForecastResponse: {
-            /** Series */
-            series: components["schemas"]["ForecastSeries"][];
-            /** Surge Note */
-            surge_note?: string | null;
-        };
-        /** ForecastSeries */
-        ForecastSeries: {
-            /**
-             * Service
-             * @enum {string}
-             */
-            service: "fryft" | "shuttle";
-            /** Buckets */
-            buckets: components["schemas"]["ForecastBucket"][];
-        };
-        /** HTTPValidationError */
-        HTTPValidationError: {
-            /** Detail */
-            detail?: components["schemas"]["ValidationError"][];
-        };
-        /** Hazard */
-        Hazard: {
-            /** Id */
-            id: string;
-            /**
-             * Type
-             * @enum {string}
-             */
-            type: "light_out" | "blocked_path" | "other";
-            location: components["schemas"]["LatLng"];
-            /** Report Count */
-            report_count: number;
-            /**
-             * Summary
-             * @description AI summary of the one-tap reports at this spot
-             */
-            summary: string;
-            /**
-             * Updated At
-             * Format: date-time
-             */
-            updated_at: string;
-        };
-        /** HazardReportRequest */
-        HazardReportRequest: {
-            /**
-             * Type
-             * @enum {string}
-             */
-            type: "light_out" | "blocked_path" | "other";
-            location: components["schemas"]["LatLng"];
-        };
-        /** HeatmapPoint */
-        HeatmapPoint: {
-            location: components["schemas"]["LatLng"];
-            /** Intensity */
-            intensity: number;
-        };
-        /** HeatmapResponse */
-        HeatmapResponse: {
-            /** Window Min */
-            window_min: number;
-            /** Points */
-            points: components["schemas"]["HeatmapPoint"][];
-        };
-        /** LatLng */
-        LatLng: {
-            /** Lat */
-            lat: number;
-            /** Lng */
-            lng: number;
-        };
-        /** LoginRequest */
-        LoginRequest: {
-            /**
-             * Email
-             * @description Must end with @usc.edu
-             */
-            email: string;
-        };
-        /** LoginResponse */
-        LoginResponse: {
-            /** Token */
-            token: string;
-            user: components["schemas"]["User"];
-        };
-        /** Pod */
-        Pod: {
-            /** Id */
-            id: string;
-            /** Members */
-            members: components["schemas"]["PodMember"][];
-            /** Destination Label */
-            destination_label: string;
-            /** Meeting Point Label */
-            meeting_point_label: string;
-            meeting_point: components["schemas"]["LatLng"];
-            /** Leaves In Min */
-            leaves_in_min: number;
-        };
-        /** PodMember */
-        PodMember: {
-            /** User Id */
-            user_id: string;
-            /** Display Name */
-            display_name: string;
-            /** Initials */
-            initials: string;
-        };
-        /** PodsResponse */
-        PodsResponse: {
-            /** Pods */
-            pods: components["schemas"]["Pod"][];
-        };
-        /** RouteOption */
-        RouteOption: {
-            /**
-             * Kind
-             * @enum {string}
-             */
-            kind: "safest" | "fastest";
-            /**
-             * Path
-             * @description Ordered points along real streets
-             */
-            path: components["schemas"]["LatLng"][];
-            /** Minutes */
-            minutes: number;
-            /** Distance M */
-            distance_m: number;
-            /**
-             * Notes
-             * @description Short reasons shown under the route
-             */
-            notes?: string[];
-        };
-        /** RoutesResponse */
-        RoutesResponse: {
-            origin: components["schemas"]["LatLng"];
-            destination: components["schemas"]["LatLng"];
-            safest: components["schemas"]["RouteOption"];
-            fastest: components["schemas"]["RouteOption"];
-            /** Hazards */
-            hazards: components["schemas"]["Hazard"][];
-        };
-        /** User */
-        User: {
-            /** Id */
-            id: string;
-            /** Email */
-            email: string;
-            /** Display Name */
-            display_name: string;
-        };
-        /** ValidationError */
-        ValidationError: {
-            /** Location */
-            loc: (string | number)[];
-            /** Message */
-            msg: string;
-            /** Error Type */
-            type: string;
-            /** Input */
-            input?: unknown;
-            /** Context */
-            ctx?: Record<string, never>;
-        };
-        /** WaitTime */
-        WaitTime: {
-            /** Location Label */
-            location_label: string;
-            /** Now Min */
-            now_min: number;
-            /** In 30 Min */
-            in_30_min: number;
-        };
-        /** WaitTimesResponse */
-        WaitTimesResponse: {
-            /** Items */
-            items: components["schemas"]["WaitTime"][];
-        };
-        /** Walk */
-        Walk: {
-            /** Id */
-            id: string;
-            /** User Id */
-            user_id: string;
-            /**
-             * Status
-             * @enum {string}
-             */
-            status: "active" | "ended";
-            /** Destination Label */
-            destination_label: string;
-            route: components["schemas"]["RouteOption"];
-            /** Pod Id */
-            pod_id?: string | null;
-            /** Safe Phrase */
-            safe_phrase: string;
-            /**
-             * Started At
-             * Format: date-time
-             */
-            started_at: string;
-            /** Ended At */
-            ended_at?: string | null;
-        };
-        /** WalkCreateRequest */
-        WalkCreateRequest: {
-            origin: components["schemas"]["LatLng"];
-            destination: components["schemas"]["LatLng"];
-            /** Destination Label */
-            destination_label: string;
-            /**
-             * Route Kind
-             * @default safest
-             * @enum {string}
-             */
-            route_kind: "safest" | "fastest";
-            /** Pod Id */
-            pod_id?: string | null;
-        };
+  schemas: {
+    /** Alert */
+    Alert: {
+      /** Id */
+      id: string;
+      /** Walk Id */
+      walk_id: string;
+      /** User Display Name */
+      user_display_name: string;
+      /**
+       * Status
+       * @enum {string}
+       */
+      status: "open" | "resolved";
+      /**
+       * Source
+       * @enum {string}
+       */
+      source: "voice" | "manual";
+      location: components["schemas"]["LatLng"];
+      /** Location Label */
+      location_label?: string | null;
+      /** Transcript */
+      transcript?: string | null;
+      /** Reasons */
+      reasons?: string[];
+      /** Pod Notified */
+      pod_notified: number;
+      /** Contacts Notified */
+      contacts_notified: number;
+      /**
+       * Created At
+       * Format: date-time
+       */
+      created_at: string;
+      /** Resolved At */
+      resolved_at?: string | null;
     };
-    responses: never;
-    parameters: never;
-    requestBodies: never;
-    headers: never;
-    pathItems: never;
+    /** AlertCreateRequest */
+    AlertCreateRequest: {
+      /** Walk Id */
+      walk_id: string;
+      /**
+       * Source
+       * @enum {string}
+       */
+      source: "voice" | "manual";
+      location: components["schemas"]["LatLng"];
+      /** Location Label */
+      location_label?: string | null;
+      /** Transcript */
+      transcript?: string | null;
+      /** Reasons */
+      reasons?: string[];
+    };
+    /** AlertsResponse */
+    AlertsResponse: {
+      /** Alerts */
+      alerts: components["schemas"]["Alert"][];
+    };
+    /**
+     * AudioChunkResponse
+     * @description Result of scoring one audio chunk sent during a walk.
+     */
+    AudioChunkResponse: {
+      /** Transcript */
+      transcript: string;
+      /** Sound Label */
+      sound_label?: string | null;
+      /** Sound Score */
+      sound_score: number;
+      /**
+       * Alert Score
+       * @description Fused score from speech, sound and movement
+       */
+      alert_score: number;
+      /** Triggered */
+      triggered: boolean;
+      /**
+       * Reasons
+       * @description Shown on the countdown screen
+       */
+      reasons?: string[];
+    };
+    /** Body_score_audio_chunk_walks__walk_id__audio_post */
+    Body_score_audio_chunk_walks__walk_id__audio_post: {
+      /**
+       * Audio
+       * @description One audio chunk. Format to be agreed.
+       */
+      audio: string;
+      /**
+       * Sound Label
+       * @description Top label from the in-browser classifier
+       */
+      sound_label?: string | null;
+      /**
+       * Sound Score
+       * @description Score for sound_label, 0 to 1
+       * @default 0
+       */
+      sound_score: number;
+      /**
+       * Sudden Stop
+       * @description Movement signal from the phone
+       * @default false
+       */
+      sudden_stop: boolean;
+    };
+    /** Corridor */
+    Corridor: {
+      /** From Label */
+      from_label: string;
+      /** To Label */
+      to_label: string;
+      /** Walks */
+      walks: number;
+    };
+    /** CorridorsResponse */
+    CorridorsResponse: {
+      /** Items */
+      items: components["schemas"]["Corridor"][];
+    };
+    /** DashboardSummary */
+    DashboardSummary: {
+      /**
+       * Simulated
+       * @description True while the data layer is simulated; drives the badge
+       */
+      simulated: boolean;
+      /** Active Walks */
+      active_walks: number;
+      /** Pods In Progress */
+      pods_in_progress: number;
+      /** Active Hazard Reports */
+      active_hazard_reports: number;
+      /** Open Alerts */
+      open_alerts: number;
+      /** Median Response S */
+      median_response_s: number;
+      /** Top Hazard Summary */
+      top_hazard_summary: string;
+    };
+    /** ForecastBucket */
+    ForecastBucket: {
+      /**
+       * Label
+       * @description Bucket start as shown on the axis, for example 00:30
+       */
+      label: string;
+      /** Requests */
+      requests: number;
+      /** Is Forecast */
+      is_forecast: boolean;
+    };
+    /** ForecastResponse */
+    ForecastResponse: {
+      /** Series */
+      series: components["schemas"]["ForecastSeries"][];
+      /** Surge Note */
+      surge_note?: string | null;
+    };
+    /** ForecastSeries */
+    ForecastSeries: {
+      /**
+       * Service
+       * @enum {string}
+       */
+      service: "fryft" | "shuttle";
+      /** Buckets */
+      buckets: components["schemas"]["ForecastBucket"][];
+    };
+    /** HTTPValidationError */
+    HTTPValidationError: {
+      /** Detail */
+      detail?: components["schemas"]["ValidationError"][];
+    };
+    /** Hazard */
+    Hazard: {
+      /** Id */
+      id: string;
+      /**
+       * Type
+       * @enum {string}
+       */
+      type: "light_out" | "blocked_path" | "other";
+      location: components["schemas"]["LatLng"];
+      /** Report Count */
+      report_count: number;
+      /**
+       * Summary
+       * @description AI summary of the one-tap reports at this spot
+       */
+      summary: string;
+      /**
+       * Updated At
+       * Format: date-time
+       */
+      updated_at: string;
+    };
+    /** HazardReportRequest */
+    HazardReportRequest: {
+      /**
+       * Type
+       * @enum {string}
+       */
+      type: "light_out" | "blocked_path" | "other";
+      location: components["schemas"]["LatLng"];
+    };
+    /** HeatmapPoint */
+    HeatmapPoint: {
+      location: components["schemas"]["LatLng"];
+      /** Intensity */
+      intensity: number;
+    };
+    /** HeatmapResponse */
+    HeatmapResponse: {
+      /** Window Min */
+      window_min: number;
+      /** Points */
+      points: components["schemas"]["HeatmapPoint"][];
+    };
+    /** LatLng */
+    LatLng: {
+      /** Lat */
+      lat: number;
+      /** Lng */
+      lng: number;
+    };
+    /** LoginRequest */
+    LoginRequest: {
+      /**
+       * Email
+       * @description Must end with @usc.edu
+       */
+      email: string;
+    };
+    /** LoginResponse */
+    LoginResponse: {
+      /** Token */
+      token: string;
+      user: components["schemas"]["User"];
+    };
+    /** Pod */
+    Pod: {
+      /** Id */
+      id: string;
+      /** Members */
+      members: components["schemas"]["PodMember"][];
+      /** Destination Label */
+      destination_label: string;
+      /** Meeting Point Label */
+      meeting_point_label: string;
+      meeting_point: components["schemas"]["LatLng"];
+      /** Leaves In Min */
+      leaves_in_min: number;
+    };
+    /** PodMember */
+    PodMember: {
+      /** User Id */
+      user_id: string;
+      /** Display Name */
+      display_name: string;
+      /** Initials */
+      initials: string;
+    };
+    /** PodsResponse */
+    PodsResponse: {
+      /** Pods */
+      pods: components["schemas"]["Pod"][];
+    };
+    /** RouteOption */
+    RouteOption: {
+      /**
+       * Kind
+       * @enum {string}
+       */
+      kind: "safest" | "fastest";
+      /**
+       * Path
+       * @description Ordered points along real streets
+       */
+      path: components["schemas"]["LatLng"][];
+      /** Minutes */
+      minutes: number;
+      /** Distance M */
+      distance_m: number;
+      /**
+       * Notes
+       * @description Short reasons shown under the route
+       */
+      notes?: string[];
+    };
+    /** RoutesResponse */
+    RoutesResponse: {
+      origin: components["schemas"]["LatLng"];
+      destination: components["schemas"]["LatLng"];
+      safest: components["schemas"]["RouteOption"];
+      fastest: components["schemas"]["RouteOption"];
+      /** Hazards */
+      hazards: components["schemas"]["Hazard"][];
+    };
+    /** User */
+    User: {
+      /** Id */
+      id: string;
+      /** Email */
+      email: string;
+      /** Display Name */
+      display_name: string;
+    };
+    /** ValidationError */
+    ValidationError: {
+      /** Location */
+      loc: (string | number)[];
+      /** Message */
+      msg: string;
+      /** Error Type */
+      type: string;
+      /** Input */
+      input?: unknown;
+      /** Context */
+      ctx?: Record<string, never>;
+    };
+    /** WaitTime */
+    WaitTime: {
+      /** Location Label */
+      location_label: string;
+      /** Now Min */
+      now_min: number;
+      /** In 30 Min */
+      in_30_min: number;
+    };
+    /** WaitTimesResponse */
+    WaitTimesResponse: {
+      /** Items */
+      items: components["schemas"]["WaitTime"][];
+    };
+    /** Walk */
+    Walk: {
+      /** Id */
+      id: string;
+      /** User Id */
+      user_id: string;
+      /**
+       * Status
+       * @enum {string}
+       */
+      status: "active" | "ended";
+      /** Destination Label */
+      destination_label: string;
+      route: components["schemas"]["RouteOption"];
+      /** Pod Id */
+      pod_id?: string | null;
+      /** Safe Phrase */
+      safe_phrase: string;
+      /**
+       * Started At
+       * Format: date-time
+       */
+      started_at: string;
+      /** Ended At */
+      ended_at?: string | null;
+    };
+    /** WalkCreateRequest */
+    WalkCreateRequest: {
+      origin: components["schemas"]["LatLng"];
+      destination: components["schemas"]["LatLng"];
+      /** Destination Label */
+      destination_label: string;
+      /**
+       * Route Kind
+       * @default safest
+       * @enum {string}
+       */
+      route_kind: "safest" | "fastest";
+      /** Pod Id */
+      pod_id?: string | null;
+    };
+  };
+  responses: never;
+  parameters: never;
+  requestBodies: never;
+  headers: never;
+  pathItems: never;
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    login_auth_login_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["LoginRequest"];
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["LoginResponse"];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
+  login_auth_login_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    get_routes_routes_get: {
-        parameters: {
-            query: {
-                from_lat: number;
-                from_lng: number;
-                to_lat: number;
-                to_lng: number;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["RoutesResponse"];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["LoginRequest"];
+      };
     };
-    list_hazards_hazards_get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Hazard"][];
-                };
-            };
+        content: {
+          "application/json": components["schemas"]["LoginResponse"];
         };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
     };
-    report_hazard_hazards_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["HazardReportRequest"];
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Hazard"];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
+  };
+  get_routes_routes_get: {
+    parameters: {
+      query: {
+        from_lat: number;
+        from_lng: number;
+        to_lat: number;
+        to_lng: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    find_pods_pods_get: {
-        parameters: {
-            query: {
-                to_lat: number;
-                to_lng: number;
-                depart_in_min?: number;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PodsResponse"];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
+        content: {
+          "application/json": components["schemas"]["RoutesResponse"];
         };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
     };
-    join_pod_pods__pod_id__join_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                pod_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Pod"];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
+  };
+  list_hazards_hazards_get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    start_walk_walks_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["WalkCreateRequest"];
-            };
+        content: {
+          "application/json": components["schemas"]["Hazard"][];
         };
-        responses: {
-            /** @description Successful Response */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Walk"];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
+      };
     };
-    end_walk_walks__walk_id__end_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                walk_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Walk"];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
+  };
+  report_hazard_hazards_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    score_audio_chunk_walks__walk_id__audio_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                walk_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "multipart/form-data": components["schemas"]["Body_score_audio_chunk_walks__walk_id__audio_post"];
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["AudioChunkResponse"];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["HazardReportRequest"];
+      };
     };
-    list_open_alerts_alerts_get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    responses: {
+      /** @description Successful Response */
+      201: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["AlertsResponse"];
-                };
-            };
+        content: {
+          "application/json": components["schemas"]["Hazard"];
         };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
     };
-    create_alert_alerts_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["AlertCreateRequest"];
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Alert"];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
+  };
+  find_pods_pods_get: {
+    parameters: {
+      query: {
+        to_lat: number;
+        to_lng: number;
+        depart_in_min?: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    resolve_alert_alerts__alert_id__resolve_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                alert_id: string;
-            };
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Alert"];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
+        content: {
+          "application/json": components["schemas"]["PodsResponse"];
         };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
     };
-    summary_dashboard_summary_get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["DashboardSummary"];
-                };
-            };
-        };
+  };
+  join_pod_pods__pod_id__join_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        pod_id: string;
+      };
+      cookie?: never;
     };
-    heatmap_dashboard_heatmap_get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HeatmapResponse"];
-                };
-            };
+        content: {
+          "application/json": components["schemas"]["Pod"];
         };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
     };
-    forecast_dashboard_forecast_get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ForecastResponse"];
-                };
-            };
-        };
+  };
+  start_walk_walks_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    wait_times_dashboard_wait_times_get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["WaitTimesResponse"];
-                };
-            };
-        };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["WalkCreateRequest"];
+      };
     };
-    corridors_dashboard_corridors_get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    responses: {
+      /** @description Successful Response */
+      201: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["CorridorsResponse"];
-                };
-            };
+        content: {
+          "application/json": components["schemas"]["Walk"];
         };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
     };
-    health_health_get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        [key: string]: unknown;
-                    };
-                };
-            };
-        };
+  };
+  end_walk_walks__walk_id__end_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        walk_id: string;
+      };
+      cookie?: never;
     };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Walk"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  score_audio_chunk_walks__walk_id__audio_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        walk_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "multipart/form-data": components["schemas"]["Body_score_audio_chunk_walks__walk_id__audio_post"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["AudioChunkResponse"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  list_open_alerts_alerts_get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["AlertsResponse"];
+        };
+      };
+    };
+  };
+  create_alert_alerts_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["AlertCreateRequest"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Alert"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  resolve_alert_alerts__alert_id__resolve_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        alert_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Alert"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  summary_dashboard_summary_get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["DashboardSummary"];
+        };
+      };
+    };
+  };
+  heatmap_dashboard_heatmap_get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HeatmapResponse"];
+        };
+      };
+    };
+  };
+  forecast_dashboard_forecast_get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ForecastResponse"];
+        };
+      };
+    };
+  };
+  wait_times_dashboard_wait_times_get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["WaitTimesResponse"];
+        };
+      };
+    };
+  };
+  corridors_dashboard_corridors_get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["CorridorsResponse"];
+        };
+      };
+    };
+  };
+  health_health_get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": {
+            [key: string]: unknown;
+          };
+        };
+      };
+    };
+  };
 }
