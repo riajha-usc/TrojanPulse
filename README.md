@@ -4,6 +4,8 @@
 
 A voice-triggered safety net for students walking alone at USC, with walking pods, safer routes and a live campus dashboard. Built at the AI@USC hackathon, November 14 to 15, 2026.
 
+<br/>
+
 | | Link |
 |---|---|
 | **Live student app** | [trojan-pulse.replit.app](https://trojan-pulse.replit.app) |
@@ -11,9 +13,23 @@ A voice-triggered safety net for students walking alone at USC, with walking pod
 | **Demo video** | [youtu.be/lXa7X5mqJLU](https://youtu.be/lXa7X5mqJLU) |
 | **Technical documentation** | [technical-documentation.pdf](docs/technical-documentation.pdf) |
 
+<br/>
+
 ![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white) ![React](https://img.shields.io/badge/React_18-20232A?logo=react&logoColor=61DAFB) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white) ![Leaflet](https://img.shields.io/badge/Leaflet-199900?logo=leaflet&logoColor=white) ![Groq Whisper](https://img.shields.io/badge/Groq-Whisper-F55036) ![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?logo=scikitlearn&logoColor=white) ![OpenStreetMap](https://img.shields.io/badge/OpenStreetMap-7EBC6F?logo=openstreetmap&logoColor=white)
 
+## Screens
+
+### Student app
+
+For students walking alone: plan the safest route, join a walking pod, and send a hands-free alert by voice.
+
 <img src="docs/images/app.png" alt="Student app: plan a walk, Walk Mode, the cancel countdown and the alert sent screen" width="100%"/>
+
+### Campus Pulse dashboard
+
+For USG and GSG: live alerts, hazard reports, walk demand and a ride forecast for tonight.
+
+<img src="docs/images/dashboard.png" alt="Campus Pulse dashboard with a live alert, demand map, transit forecast, wait times and busiest corridors" width="100%"/>
 
 ## Why
 
@@ -55,8 +71,6 @@ flowchart LR
 ## Campus Pulse
 
 A dashboard for USG and GSG, the people who can act on what students report.
-
-<img src="docs/images/dashboard.png" alt="Campus Pulse dashboard with a live alert, demand map, transit forecast, wait times and busiest corridors" width="100%"/>
 
 - **Live alerts** arrive without a refresh and can be resolved or shown on the map.
 - **Demand map** with layers for demand, alerts and hazards. A map square needs at least 3 people before it shows, so no one can be picked out.
