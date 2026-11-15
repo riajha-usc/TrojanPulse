@@ -30,6 +30,12 @@
   --tp-chart-gold: #f5b400;
   --tp-chart-forecast: #22b8cf;
 
+  /* map heatmap, low to high demand (from the dashboard wireframe) */
+  --tp-heat-low: #8a2a12;
+  --tp-heat-mid: #e2541a;
+  --tp-heat-high: #f2913a;
+  --tp-heat-peak: #ffe0b8;
+
   --tp-font: Inter, system-ui, sans-serif;
   --tp-font-display: "Space Grotesk", Inter, system-ui, sans-serif;
   --tp-radius: 14px;

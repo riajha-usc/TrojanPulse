@@ -7,6 +7,7 @@ import Map, {
   type Hazard,
   type HeatmapPoint,
   type LatLng,
+  type MapPlace,
   type MapRoute,
 } from "./Map";
 
@@ -48,30 +49,47 @@ const POD_POSITIONS: LatLng[] = [
   { lat: 34.0243, lng: -118.2845 },
 ];
 
+// The three stub points, plus a few more so the blobs read like the wireframe.
 const HEATMAP: HeatmapPoint[] = [
   { location: HOOVER_30TH, intensity: 0.9 },
   { location: ELLENDALE_28TH, intensity: 0.6 },
   { location: LEAVEY, intensity: 0.7 },
+  { location: { lat: 34.0285, lng: -118.2878 }, intensity: 0.5 },
+  { location: { lat: 34.0252, lng: -118.2839 }, intensity: 0.8 },
+  { location: { lat: 34.0205, lng: -118.2862 }, intensity: 0.45 },
 ];
 
-const ALERTS: AlertPin[] = [{ ...HOOVER_30TH, label: "Hoover St near 30th St" }];
+const START: MapPlace = { ...LEAVEY, label: "Leavey Library" };
+const DESTINATION: MapPlace = { ...ELLENDALE_28TH, label: "Ellendale & 28th" };
+
+const DASHBOARD_ALERTS: AlertPin[] = [{ ...HOOVER_30TH, label: "Live alert" }];
+const MINI_PIN: AlertPin[] = [HOOVER_30TH];
 
 const MIDPOINT: LatLng = { lat: 34.0257, lng: -118.2871 };
 
 const examples = [
   {
     title: "Screen 1: plan a walk",
-    note: "routes (safest highlighted), hazards",
-    map: <Map center={MIDPOINT} routes={[SAFEST, FASTEST]} hazards={HAZARDS} />,
+    note: "routes (safest highlighted), hazards, start, destination",
+    map: (
+      <Map
+        center={MIDPOINT}
+        routes={[SAFEST, FASTEST]}
+        hazards={HAZARDS}
+        start={START}
+        destination={DESTINATION}
+      />
+    ),
   },
   {
     title: "Screen 2: Walk Mode",
-    note: "one route, position, podPositions",
+    note: "one route, destination, position, podPositions",
     map: (
       <Map
         center={{ lat: 34.0244, lng: -118.2841 }}
         zoom={16}
         routes={[SAFEST]}
+        destination={DESTINATION}
         position={{ lat: 34.0244, lng: -118.2841 }}
         podPositions={POD_POSITIONS}
       />
@@ -79,13 +97,21 @@ const examples = [
   },
   {
     title: "Screens 3 and 4: mini map",
-    note: "one pin, height 140",
-    map: <Map center={HOOVER_30TH} zoom={16} height={140} alertPins={ALERTS} />,
+    note: "one alert pin without a label, height 140",
+    map: <Map center={HOOVER_30TH} zoom={16} height={140} alertPins={MINI_PIN} />,
   },
   {
     title: "Dashboard: demand heatmap",
-    note: "heatmapPoints, alertPins",
-    map: <Map center={MIDPOINT} height={360} heatmapPoints={HEATMAP} alertPins={ALERTS} />,
+    note: 'heatmapPoints, alertPins, variant="dashboard"',
+    map: (
+      <Map
+        variant="dashboard"
+        center={{ lat: 34.0245, lng: -118.2865 }}
+        height={360}
+        heatmapPoints={HEATMAP}
+        alertPins={DASHBOARD_ALERTS}
+      />
+    ),
   },
 ];
 
