@@ -56,6 +56,38 @@ flowchart LR
 - **Phrases split across clips still match.** The last two transcripts are joined before scoring.
 - **Privacy.** The microphone is on only during a walk. Audio is sent for transcription and is not stored by TrojanPulse.
 
+## Campus Pulse
+
+A dashboard for USG and GSG, the people who can act on what students report.
+
+<img src="docs/images/dashboard.png" alt="Campus Pulse dashboard with a live alert, demand map, transit forecast, wait times and busiest corridors" width="100%"/>
+
+- **Live alerts** arrive without a refresh and can be resolved or shown on the map.
+- **Demand map** with layers for demand, alerts and hazards. A map square needs at least 3 people before it shows, so no one can be picked out.
+- **Transit forecast** from a scikit-learn model trained on three weeks of ride requests. It learns how crowds let out nearby move demand.
+- **Hazard summaries** are one neutral sentence each, written by an LLM when a key is set, about infrastructure and never about people.
+
+## Built with
+
+| Layer | Tools |
+| --- | --- |
+| Student app and dashboard | React 18, TypeScript, Vite, Leaflet |
+| API | FastAPI, Pydantic, WebSocket |
+| Speech to text | Groq Whisper |
+| Routing | OSMnx and NetworkX on the OpenStreetMap graph |
+| Forecast | scikit-learn |
+| Hosting | Replit, one server for the API and both web apps |
+
+## What is real and what is simulated
+
+| Real | Simulated for the hackathon |
+| --- | --- |
+| Street graph, routing and pod matching | Walkers, ride requests, hazard reports and incidents |
+| Speech to text and trigger scoring | Notifications to the pod and emergency contacts |
+| Forecast model and live WebSocket updates | Alert response time |
+
+Sign-in checks the format of a USC email. It is not USC single sign-on. There is no DPS integration. When location is unavailable or far from campus, the app starts from Leavey Library and says so.
+
 ## Run it
 
 Backend (Python 3.9 or newer):
