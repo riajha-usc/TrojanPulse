@@ -190,6 +190,8 @@ export default function Map({
       routes ? [...routes].sort((a, b) => Number(!!a.highlighted) - Number(!!b.highlighted)) : [],
     [routes],
   );
+  // Place labels point toward the other end of the walk, so the map edge does not cut them off.
+  const destinationIsWest = !!start && !!destination && destination.lng < start.lng;
   return (
     <div className={`tp-map tp-map--${variant}`} style={{ height }}>
       <MapContainer
@@ -245,7 +247,7 @@ export default function Map({
             radius={7}
             pathOptions={{ className: "tp-map-start" }}
           >
-            <PlaceLabel text={start.label} direction="right" />
+            <PlaceLabel text={start.label} direction={destinationIsWest ? "left" : "right"} />
           </CircleMarker>
         )}
 
@@ -255,7 +257,7 @@ export default function Map({
             radius={9}
             pathOptions={{ className: "tp-map-destination" }}
           >
-            <PlaceLabel text={destination.label} direction="left" />
+            <PlaceLabel text={destination.label} direction={destinationIsWest ? "right" : "left"} />
           </CircleMarker>
         )}
 

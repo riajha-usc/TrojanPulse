@@ -67,10 +67,15 @@ class Store:
         return [w for w in self.walks.values() if w.status == "active"]
 
     def pod_size(self, pod_id: Optional[str], excluding_walk_id: str) -> int:
-        """Other active walkers who share this pod."""
+        """Other people in this pod: its members, plus anyone else walking with it now."""
         if not pod_id:
             return 0
-        return sum(1 for w in self.active_walks() if w.pod_id == pod_id and w.id != excluding_walk_id)
+        walk = self.walks.get(excluding_walk_id)
+        pod = self.pods.get(pod_id)
+        members = {m.user_id for m in self.pod_with_joins(pod).members} if pod else set()
+        walking = [w for w in self.active_walks() if w.pod_id == pod_id and w.id != excluding_walk_id]
+        others = members - ({walk.user_id} if walk else set())
+        return len(others) + sum(1 for w in walking if w.user_id not in members)
 
     def recent_transcript(self, walk_id: str, latest: str) -> str:
         """Join the previous chunk's text with the latest, so a phrase split across chunks still matches."""
