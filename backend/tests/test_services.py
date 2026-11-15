@@ -9,7 +9,8 @@ import osmnx as ox
 import pytest
 
 from app.schemas import LatLng
-from app.services import hazards, routing
+from app.services import forecast, hazards, routing
+from app.services import pods as pods_service
 from data import places, store
 from data.extract_incidents import parse_with_rules
 from data.generate import generate
@@ -226,3 +227,135 @@ def test_far_report_makes_a_new_hazard(data_dir):
     new = hazards.add_report("blocked_path", LEAVEY)
     assert new.report_count == 1
     assert len(hazards.list_hazards()) == count + 1
+
+
+# ---------------------------------------------------------------- pods
+
+
+def test_maya_and_dev_are_matched_into_one_pod(data_dir):
+    pods = pods_service.match_pods(ELLENDALE, depart_in_min=5)
+    pod = next(p for p in pods if "u_maya" in [m.user_id for m in p.members])
+    assert "u_dev" in [m.user_id for m in pod.members]
+    assert pod.meeting_point_label == "Leavey Library north exit"
+    assert pod.destination_label == "Ellendale Pl & 28th St"
+    assert pod.leaves_in_min == 5
+    assert {m.display_name: m.initials for m in pod.members}["Maya R."] == "MR"
+
+
+def test_pods_follow_the_matching_rules(data_dir):
+    walkers = {w["id"]: w for w in store.load("walkers", data_dir)}
+    pods = pods_service.match_pods(ELLENDALE, depart_in_min=5)
+    assert pods
+    for pod in pods:
+        assert 1 <= len(pod.members) <= pods_service.MAX_MEMBERS
+        departs = [datetime.fromisoformat(walkers[m.user_id]["depart_at"]) for m in pod.members]
+        assert max(departs) - min(departs) <= timedelta(minutes=pods_service.DEPARTURE_WINDOW_MIN)
+        for member in pod.members:
+            dest = walkers[member.user_id]["destination"]
+            assert meters((dest["lat"], dest["lng"]), (ELLENDALE.lat, ELLENDALE.lng)) <= 300
+            assert re.fullmatch(r"[A-Z][a-z]+ [A-Z]\.", member.display_name)
+
+
+def test_no_pods_when_nobody_matches(data_dir):
+    assert pods_service.match_pods(LatLng(lat=34.0180, lng=-118.2950), depart_in_min=5) == []
+    assert pods_service.match_pods(ELLENDALE, depart_in_min=600) == []
+
+
+def test_new_walker_changes_the_pods(data_dir):
+    def add_walker(rows):
+        rows.append(
+            {
+                "id": "u_test",
+                "display_name": "Test W.",
+                "start_label": "Leavey Library",
+                "start": {"lat": 34.0221, "lng": -118.2829},
+                "destination_label": "Ellendale Pl & 28th St",
+                "destination": {"lat": 34.0294, "lng": -118.2888},
+                "depart_at": (places.DEMO_NOW + timedelta(minutes=2)).isoformat(timespec="minutes"),
+            }
+        )
+
+    _edit(data_dir, "walkers", add_walker)
+    pods = pods_service.match_pods(ELLENDALE, depart_in_min=5)
+    assert any("u_test" in [m.user_id for m in p.members] for p in pods)
+
+
+# ---------------------------------------------------------------- dashboard
+
+
+def test_heatmap_is_scaled_and_follows_the_window(data_dir):
+    hour = forecast.get_heatmap()
+    assert hour.window_min == 60 and hour.points
+    assert max(p.intensity for p in hour.points) == 1.0
+    assert all(0 <= p.intensity <= 1 for p in hour.points)
+    assert forecast.get_heatmap(window_min=10).points != hour.points
+
+
+def test_heatmap_hides_a_lone_person(data_dir):
+    lonely = (34.0175, -118.2950)
+
+    def add_walker(rows):
+        rows.append(
+            {
+                "id": "u_alone",
+                "display_name": "Alone A.",
+                "start_label": "Ginsburg Hall",
+                "start": {"lat": lonely[0], "lng": lonely[1]},
+                "destination_label": "Vermont Ave & 28th St",
+                "destination": {"lat": lonely[0], "lng": lonely[1] + 0.0002},
+                "depart_at": (places.DEMO_NOW - timedelta(minutes=10)).isoformat(timespec="minutes"),
+            }
+        )
+
+    _edit(data_dir, "walkers", add_walker)
+    points = forecast.get_heatmap().points
+    assert all(meters((p.location.lat, p.location.lng), lonely) > 200 for p in points)
+
+
+def test_corridors_busiest_first(data_dir):
+    items = forecast.get_corridors().items
+    assert 0 < len(items) <= forecast.TOP_CORRIDORS
+    assert (items[0].from_label, items[0].to_label) == ("Leavey Library", "Ellendale Pl & 28th St")
+    assert [c.walks for c in items] == sorted((c.walks for c in items), reverse=True)
+
+
+def test_forecast_shape_and_leavey_surge(data_dir):
+    result = forecast.get_forecast()
+    assert [s.service for s in result.series] == ["fryft", "shuttle"]
+    fryft = result.series[0].buckets
+    past = [b for b in fryft if not b.is_forecast]
+    future = [b for b in fryft if b.is_forecast]
+    assert [b.label for b in past][0] == "20:00" and past[-1].label == "23:00"
+    assert [b.label for b in future] == ["23:30", "00:00", "00:30", "01:00"]
+    assert max(future, key=lambda b: b.requests).label == "00:00"
+    assert result.surge_note == "Fryft surge expected at 12:00 AM near Leavey Library."
+
+
+def _set_leavey_close_tonight(folder, ends_at):
+    def change(rows):
+        tonight = [e for e in rows if e["label"] == "Leavey Library closes" and e["ends_at"] == "2026-11-14T00:00"]
+        for event in tonight:
+            if ends_at is None:
+                rows.remove(event)
+            else:
+                event["ends_at"] = ends_at
+
+    _edit(folder, "campus_schedule", change)
+
+
+def test_changing_closing_time_moves_the_surge(data_dir):
+    _set_leavey_close_tonight(data_dir, "2026-11-14T01:00")
+    result = forecast.get_forecast()
+    assert result.surge_note == "Fryft surge expected at 1:00 AM near Leavey Library."
+
+
+def test_no_surge_note_without_a_crowd(data_dir):
+    _set_leavey_close_tonight(data_dir, None)
+    assert forecast.get_forecast().surge_note == ""
+
+
+def test_wait_times_grow_before_the_surge(data_dir):
+    items = {w.location_label: w for w in forecast.get_wait_times().items}
+    assert set(items) == set(places.PICKUP_SPOTS)
+    assert items["Leavey Library"].in_30_min > items["Leavey Library"].now_min
+    assert all(w.now_min >= 1 and w.in_30_min >= 1 for w in items.values())

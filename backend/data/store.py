@@ -14,6 +14,12 @@ def load(name: str, folder: Optional[Path] = None) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def version(name: str, folder: Optional[Path] = None) -> tuple:
+    """Changes whenever the file changes. Used to know when a trained model is out of date."""
+    path = (folder or GENERATED_DIR) / f"{name}.json"
+    return (str(path), path.stat().st_mtime_ns)
+
+
 def save(name: str, rows: Any, folder: Optional[Path] = None) -> None:
     folder = folder or GENERATED_DIR
     folder.mkdir(parents=True, exist_ok=True)
