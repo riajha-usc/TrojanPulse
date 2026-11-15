@@ -17,12 +17,13 @@ Backend (Python 3.9 or newer):
 cd backend
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-python data/download_graph.py    # once, needs internet: saves the street graph
 python -m data.generate          # once: creates the simulated datasets
 python -m uvicorn app.main:app --reload
 ```
 
-If the two data steps are skipped the API still runs, but it serves example data. Check `http://localhost:8000/health`: `"data": "ready"` means the real data is in use.
+The street graph is already in the repo. If the data step is skipped the API still runs, but it serves example data. Check `http://localhost:8000/health`: `"data": "ready"` means the real data is in use.
+
+For the voice trigger, copy `.env.example` to `.env` at the repo root and set `GROQ_API_KEY`. Without it the app still runs, with speech to text off.
 
 Frontend (Node 18 or newer):
 
@@ -32,6 +33,10 @@ npm install
 cp .env.example .env.local
 npm run dev
 ```
+
+Set `VITE_CARTO_KEY` in `.env.local` to a free key from https://carto.com/basemaps/apikey. The maps show no streets without it.
+
+In the student app, allow location and microphone access. If location is unavailable or far from campus, the app starts from Leavey Library and says so.
 
 | What | Where |
 | --- | --- |
