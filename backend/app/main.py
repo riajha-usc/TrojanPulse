@@ -4,6 +4,9 @@ Owner: Ria. Router registration lives here; ask before editing.
 Run from the backend folder:  python -m uvicorn app.main:app --reload
 """
 
+import threading
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import ValidationError
@@ -12,11 +15,28 @@ from app.config import settings
 from app.routers import alerts, auth, dashboard, hazards, pods, routes, walks
 from app.schemas import LocationUpdate, WsEvent
 from app.store import store
+from app.web import serve_web_app
 from app.ws import hub
 from data import store as data_store
-from data.graph import GRAPH_FILE
+from data.graph import GRAPH_FILE, load_graph
 
-app = FastAPI(title="TrojanPulse API", version="0.2.0")
+
+
+def warm_up() -> None:
+    """Load the street graph before the first student asks for a route."""
+    try:
+        load_graph()
+    except Exception:
+        pass  # endpoints fall back to example data
+
+
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    threading.Thread(target=warm_up, daemon=True).start()
+    yield
+
+
+app = FastAPI(title="TrojanPulse API", version="0.2.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -64,3 +84,7 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
                 await hub.emit("location.update", update, skip=websocket)
     except WebSocketDisconnect:
         hub.disconnect(websocket)
+
+
+# Last, so every API route above is matched first.
+serve_web_app(app)
