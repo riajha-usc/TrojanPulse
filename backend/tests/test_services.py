@@ -14,7 +14,13 @@ from app.services import pods as pods_service
 from data import places, store
 from data.extract_incidents import parse_with_rules
 from data.generate import generate
-from data.graph import intersection, load_graph, meters
+from data.graph import GRAPH_FILE, intersection, load_graph, meters
+
+if not GRAPH_FILE.exists():
+    pytest.skip(
+        f"Street graph not found at {GRAPH_FILE}. Run from backend: python data/download_graph.py",
+        allow_module_level=True,
+    )
 
 # ---------------------------------------------------------------- street graph
 

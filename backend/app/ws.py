@@ -1,14 +1,18 @@
 """WebSocket connection hub. Owner: Ria.
 
-Skeleton only: it tracks connections and can broadcast an event to all of them.
-TODO(Ria): target events to a pod or to dashboards instead of everyone.
+Every connected browser gets every event. The clients filter by event type.
+TODO(Ria): target events to one pod or to dashboards only.
 """
 
-from typing import List
+import logging
+from typing import List, Optional
 
 from fastapi import WebSocket
+from pydantic import BaseModel
 
-from app.schemas import WsEvent
+from app.schemas import WsEvent, WsEventType
+
+log = logging.getLogger(__name__)
 
 
 class Hub:
@@ -23,9 +27,19 @@ class Hub:
         if websocket in self.connections:
             self.connections.remove(websocket)
 
-    async def broadcast(self, event: WsEvent) -> None:
+    async def broadcast(self, event: WsEvent, skip: Optional[WebSocket] = None) -> None:
+        message = event.model_dump(mode="json")
         for connection in list(self.connections):
-            await connection.send_json(event.model_dump(mode="json"))
+            if connection is skip:
+                continue
+            try:
+                await connection.send_json(message)
+            except Exception as exc:  # a closed tab must not break delivery to the others
+                log.info("Dropping dead WebSocket: %s", exc)
+                self.disconnect(connection)
+
+    async def emit(self, event_type: WsEventType, payload: BaseModel, skip: Optional[WebSocket] = None) -> None:
+        await self.broadcast(WsEvent(type=event_type, payload=payload.model_dump(mode="json")), skip=skip)
 
 
 hub = Hub()
