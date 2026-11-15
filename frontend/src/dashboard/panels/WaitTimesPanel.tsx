@@ -6,9 +6,10 @@ const REFRESH_MS = 60_000;
 
 export function WaitTimesPanel() {
   const { data, error } = useApi(getWaitTimes, REFRESH_MS);
+  const longest = Math.max(1, ...(data?.items.map((w) => w.in_30_min) ?? []));
 
   return (
-    <Panel title="Live wait times by pickup location">
+    <Panel title="Live wait times" subtitle="By pickup location">
       {data ? (
         <table className="dash-table">
           <thead>
@@ -23,7 +24,14 @@ export function WaitTimesPanel() {
               <tr key={w.location_label}>
                 <th scope="row">{w.location_label}</th>
                 <td className="dash-table__now">{w.now_min} min</td>
-                <td className="dash-table__later">{w.in_30_min} min</td>
+                <td className="dash-table__later">
+                  {w.in_30_min} min
+                  <span
+                    className="dash-table__bar"
+                    style={{ width: `${Math.max(6, (w.in_30_min / longest) * 44)}px` }}
+                    aria-hidden="true"
+                  />
+                </td>
               </tr>
             ))}
           </tbody>
