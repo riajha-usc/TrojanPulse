@@ -1,0 +1,156 @@
+/* Styles for the shared map. Colors come from tokens.css.
+   Leaflet writes colors as SVG attributes; these CSS rules override them. */
+
+.tp-map {
+  width: 100%;
+  border-radius: var(--tp-radius);
+  overflow: hidden;
+  background: var(--tp-navy-raised);
+  isolation: isolate; /* keep Leaflet's z-indexes inside the map */
+}
+
+.tp-map .leaflet-container {
+  background: var(--tp-navy-raised);
+  font-family: var(--tp-font);
+}
+
+/* Routes */
+.tp-route-glow {
+  stroke: var(--tp-safe);
+  stroke-width: 14px;
+  stroke-opacity: 0.25;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  filter: blur(3px);
+}
+
+.tp-route-main {
+  stroke: var(--tp-safe);
+  stroke-width: 5px;
+  stroke-opacity: 1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+.tp-route-alt {
+  stroke: var(--tp-text-muted);
+  stroke-width: 3px;
+  stroke-opacity: 0.7;
+  stroke-dasharray: 6 8;
+  stroke-linecap: round;
+  fill: none;
+}
+
+/* Points */
+.tp-map-hazard {
+  stroke: var(--tp-navy);
+  stroke-width: 2px;
+  fill: var(--tp-alert);
+  fill-opacity: 1;
+}
+
+.tp-map-pod {
+  stroke: var(--tp-navy);
+  stroke-width: 1.5px;
+  fill: var(--tp-gold);
+  fill-opacity: 1;
+}
+
+.tp-map-you {
+  stroke: var(--tp-you);
+  stroke-width: 4px;
+  stroke-opacity: 1;
+  fill: var(--tp-text);
+  fill-opacity: 1;
+}
+
+/* Labels */
+.leaflet-tooltip.tp-map-label {
+  background: var(--tp-navy);
+  color: var(--tp-text);
+  border: 1px solid var(--tp-navy-border);
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: none;
+}
+
+.leaflet-tooltip.tp-map-label::before {
+  display: none;
+}
+
+/* Alert pin: red dot with a pulsing ring */
+.tp-map-alert {
+  position: relative;
+}
+
+.tp-map-alert__dot,
+.tp-map-alert__ring {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  border-radius: 50%;
+}
+
+.tp-map-alert__dot {
+  width: 14px;
+  height: 14px;
+  background: var(--tp-alert);
+  border: 2px solid var(--tp-text);
+}
+
+.tp-map-alert__ring {
+  width: 28px;
+  height: 28px;
+  background: var(--tp-alert);
+  opacity: 0.5;
+  animation: tp-map-pulse 1.6s ease-out infinite;
+}
+
+@keyframes tp-map-pulse {
+  from {
+    transform: scale(0.5);
+    opacity: 0.6;
+  }
+  to {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tp-map-alert__ring {
+    animation: none;
+  }
+}
+
+/* Attribution: keep it small and dark */
+.tp-map .leaflet-control-attribution {
+  background: color-mix(in srgb, var(--tp-black) 55%, transparent);
+  color: var(--tp-text-muted);
+  font-size: 10px;
+}
+
+.tp-map .leaflet-control-attribution a {
+  color: var(--tp-text-muted);
+}
+
+/* Zoom buttons: dark to match the map */
+.tp-map .leaflet-bar {
+  border: 1px solid var(--tp-navy-border);
+  box-shadow: none;
+}
+
+.tp-map .leaflet-bar a {
+  background: var(--tp-navy-card);
+  color: var(--tp-text);
+  border-bottom-color: var(--tp-navy-border);
+}
+
+.tp-map .leaflet-bar a:hover,
+.tp-map .leaflet-bar a:focus-visible {
+  background: var(--tp-navy-raised);
+}
