@@ -12,6 +12,11 @@ Built at the AI@USC hackathon, November 14 to 15, 2026.
 
 **[Open the live app](https://trojan-pulse.replit.app)** · **[Campus Pulse dashboard](https://trojan-pulse.replit.app/dashboard)** · **[Technical documentation](docs/technical-documentation.pdf)**
 
+
+https://github.com/user-attachments/assets/8005e06a-21be-4c2b-93ac-e07964c7e68f
+
+<sub>Music: Happy Beats / Business Moves Vol. 12 by ende.app</sub>
+
 ![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)
 ![React](https://img.shields.io/badge/React_18-20232A?logo=react&logoColor=61DAFB)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
