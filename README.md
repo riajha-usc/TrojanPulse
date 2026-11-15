@@ -4,9 +4,12 @@
 
 A voice-triggered safety net for students walking alone at USC, with walking pods, safer routes and a live campus dashboard. Built at the AI@USC hackathon, November 14 to 15, 2026.
 
-| Live student app | Live Campus Pulse dashboard | Demo video | Technical documentation |
-|---|---|---|---|
-| [trojan-pulse.replit.app](https://trojan-pulse.replit.app) | [trojan-pulse.replit.app/dashboard](https://trojan-pulse.replit.app/dashboard) | [youtu.be/lXa7X5mqJLU](https://youtu.be/lXa7X5mqJLU) | [technical-documentation.pdf](docs/technical-documentation.pdf) |
+| | Link |
+|---|---|
+| **Live student app** | [trojan-pulse.replit.app](https://trojan-pulse.replit.app) |
+| **Live Campus Pulse dashboard** | [trojan-pulse.replit.app/dashboard](https://trojan-pulse.replit.app/dashboard) |
+| **Demo video** | [youtu.be/lXa7X5mqJLU](https://youtu.be/lXa7X5mqJLU) |
+| **Technical documentation** | [technical-documentation.pdf](docs/technical-documentation.pdf) |
 
 ![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white) ![React](https://img.shields.io/badge/React_18-20232A?logo=react&logoColor=61DAFB) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white) ![Leaflet](https://img.shields.io/badge/Leaflet-199900?logo=leaflet&logoColor=white) ![Groq Whisper](https://img.shields.io/badge/Groq-Whisper-F55036) ![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?logo=scikitlearn&logoColor=white) ![OpenStreetMap](https://img.shields.io/badge/OpenStreetMap-7EBC6F?logo=openstreetmap&logoColor=white)
 
