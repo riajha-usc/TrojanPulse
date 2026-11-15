@@ -81,3 +81,50 @@ def is_distress_sound(sound_label: Optional[str]) -> bool:
     label = (sound_label or "").lower()
     return any(key in label for key in DISTRESS_SOUNDS)
 
+
+def fuse(
+    transcript: str,
+    safe_phrase: str,
+    sound_label: Optional[str],
+    sound_score: float,
+    sudden_stop: bool,
+) -> AudioChunkResponse:
+    """Combine the three signals for one chunk into an alert decision."""
+    sound_score = min(max(sound_score, 0.0), 1.0)
+    reasons: List[str] = []
+
+    if heard_safe_phrase(transcript, safe_phrase):
+        reasons.append("Safe phrase heard")
+        if is_distress_sound(sound_label) and sound_score >= 0.5:
+            reasons.append(f"{sound_label.capitalize()} {sound_score:.2f}")
+        if sudden_stop:
+            reasons.append("Sudden stop")
+        return AudioChunkResponse(
+            transcript=transcript,
+            sound_label=sound_label,
+            sound_score=sound_score,
+            alert_score=1.0,
+            triggered=True,
+            reasons=reasons,
+        )
+
+    p_speech, phrase = speech_score(transcript)
+    p_sound = SOUND_WEIGHT * sound_score if is_distress_sound(sound_label) else 0.0
+    p_stop = STOP_WEIGHT if sudden_stop else 0.0
+    alert_score = 1.0 - (1.0 - p_speech) * (1.0 - p_sound) * (1.0 - p_stop)
+
+    if phrase:
+        reasons.append(f'Said "{phrase}"')
+    if p_sound > 0 and sound_score >= 0.5:
+        reasons.append(f"{sound_label.capitalize()} {sound_score:.2f}")
+    if sudden_stop:
+        reasons.append("Sudden stop")
+
+    return AudioChunkResponse(
+        transcript=transcript,
+        sound_label=sound_label,
+        sound_score=sound_score,
+        alert_score=round(alert_score, 3),
+        triggered=alert_score >= settings.trigger_threshold,
+        reasons=reasons,
+    )
