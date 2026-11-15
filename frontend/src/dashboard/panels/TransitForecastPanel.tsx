@@ -27,6 +27,12 @@ function BarChart({ series }: { series: Series }) {
   // Show about four axis labels so they never collide.
   const step = Math.max(1, Math.ceil(series.buckets.length / 4));
   const name = SERVICE_NAMES[series.service] ?? series.service;
+  // "Now" marks the first forecast bar; drop time labels right next to it so they don't touch.
+  const axisLabel = (i: number) => {
+    if (i === firstForecast) return "Now";
+    if (firstForecast >= 0 && Math.abs(i - firstForecast) === 1) return "";
+    return i % step === 0 ? formatLabel(series.buckets[i].label) : "";
+  };
 
   return (
     <figure className="dash-chart">
@@ -47,9 +53,7 @@ function BarChart({ series }: { series: Series }) {
           </div>
           <div className="dash-chart__axis" aria-hidden="true">
             {series.buckets.map((b, i) => (
-              <span key={b.label}>
-                {i === firstForecast ? "Now" : i % step === 0 ? formatLabel(b.label) : ""}
-              </span>
+              <span key={b.label}>{axisLabel(i)}</span>
             ))}
           </div>
         </>
