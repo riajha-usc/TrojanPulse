@@ -70,9 +70,10 @@ export interface MapProps {
   variant?: "mobile" | "dashboard";
 }
 
-const TILE_URL = "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png";
+const TILE_URL = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
+
 const TILE_ATTRIBUTION =
-  '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
+  '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
 const HAZARD_LABELS: Record<Hazard["type"], string> = {
   light_out: "Light out",
@@ -176,7 +177,11 @@ export default function Map({
         scrollWheelZoom={false}
         style={{ height: "100%", width: "100%" }}
       >
-        <TileLayer url={TILE_URL} attribution={TILE_ATTRIBUTION} subdomains="abcd" maxZoom={20} />
+        <TileLayer
+          url={TILE_URL}
+          attribution={TILE_ATTRIBUTION}
+          maxZoom={19}
+        />
         <Recenter center={center} />
 
         {heatmapPoints && heatmapPoints.length > 0 && <HeatLayer points={heatmapPoints} />}
