@@ -1,0 +1,219 @@
+/* Styles for the shared map. Colors come from tokens.css.
+   Leaflet writes colors as SVG attributes; these CSS rules override them. */
+
+.tp-map {
+  width: 100%;
+  border-radius: var(--tp-radius);
+  overflow: hidden;
+  isolation: isolate; /* keep Leaflet's z-indexes inside the map */
+  --tp-map-base: var(--tp-navy-raised);
+}
+
+.tp-map--dashboard {
+  border-radius: 10px;
+  --tp-map-base: var(--tp-dash-panel);
+}
+
+.tp-map .leaflet-container {
+  background: var(--tp-map-base);
+  font-family: var(--tp-font);
+}
+
+/* Street tiles. CARTO's dark style is near-black; a cool tint and partial
+   opacity over the navy base give the wireframe's navy streets. */
+.tp-map--mobile .leaflet-tile-pane {
+  opacity: 0.6;
+  filter: sepia(0.8) saturate(2) hue-rotate(190deg) brightness(1.4);
+}
+
+.tp-map--dashboard .leaflet-tile-pane {
+  opacity: 0.85;
+  filter: brightness(1.3);
+}
+
+/* Routes */
+.tp-route-glow {
+  stroke: var(--tp-safe);
+  stroke-width: 16px;
+  stroke-opacity: 0.3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  filter: blur(4px);
+}
+
+.tp-route-main {
+  stroke: var(--tp-safe);
+  stroke-width: 6px;
+  stroke-opacity: 1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+.tp-route-alt {
+  stroke: var(--tp-text-muted);
+  stroke-width: 3px;
+  stroke-opacity: 0.8;
+  stroke-dasharray: 3 7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+/* Points */
+.tp-map-hazard {
+  stroke: var(--tp-text);
+  stroke-width: 2.5px;
+  stroke-opacity: 1;
+  fill: var(--tp-alert);
+  fill-opacity: 1;
+}
+
+.tp-map-start {
+  stroke: var(--tp-navy);
+  stroke-width: 2px;
+  stroke-opacity: 1;
+  fill: var(--tp-text);
+  fill-opacity: 1;
+}
+
+.tp-map-destination {
+  stroke: var(--tp-text);
+  stroke-width: 3px;
+  stroke-opacity: 1;
+  fill: var(--tp-safe);
+  fill-opacity: 1;
+}
+
+.tp-map-pod {
+  stroke: var(--tp-navy);
+  stroke-width: 1.5px;
+  stroke-opacity: 1;
+  fill: var(--tp-gold);
+  fill-opacity: 1;
+}
+
+.tp-map-you-halo {
+  stroke: none;
+  fill: var(--tp-you);
+  fill-opacity: 0.25;
+}
+
+.tp-map-you {
+  stroke: var(--tp-you);
+  stroke-width: 4px;
+  stroke-opacity: 1;
+  fill: var(--tp-text);
+  fill-opacity: 1;
+}
+
+/* Labels */
+.leaflet-tooltip.tp-map-label {
+  background: var(--tp-navy);
+  color: var(--tp-text);
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 3px 9px;
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: none;
+}
+
+.leaflet-tooltip.tp-map-label::before {
+  display: none;
+}
+
+.leaflet-tooltip.tp-map-label--danger,
+.leaflet-tooltip.tp-map-label--alert {
+  background: color-mix(in srgb, var(--tp-alert-deep) 35%, var(--tp-black));
+  border-color: var(--tp-alert);
+}
+
+.leaflet-tooltip.tp-map-label--alert {
+  font-size: 14px;
+  padding: 5px 16px;
+}
+
+/* Alert pin: white center, red ring, pulsing glow */
+.tp-map-alert {
+  position: relative;
+}
+
+.tp-map-alert__dot,
+.tp-map-alert__ring {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  border-radius: 50%;
+}
+
+.tp-map-alert__dot {
+  width: 18px;
+  height: 18px;
+  background: var(--tp-text);
+  border: 4px solid var(--tp-alert);
+  box-shadow: 0 0 10px var(--tp-alert);
+}
+
+.tp-map-alert__ring {
+  width: 30px;
+  height: 30px;
+  background: var(--tp-alert);
+  animation: tp-map-pulse 1.6s ease-out infinite;
+}
+
+@keyframes tp-map-pulse {
+  from {
+    transform: scale(0.5);
+    opacity: 0.6;
+  }
+  to {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tp-map-alert__ring {
+    animation: none;
+    opacity: 0.3;
+  }
+}
+
+/* Zoom buttons */
+.tp-map .leaflet-bar {
+  border: 1px solid var(--tp-navy-border);
+  box-shadow: none;
+}
+
+.tp-map .leaflet-bar a {
+  background: var(--tp-navy-card);
+  color: var(--tp-text);
+  border-bottom-color: var(--tp-navy-border);
+}
+
+.tp-map .leaflet-bar a:hover,
+.tp-map .leaflet-bar a:focus-visible {
+  background: var(--tp-navy-raised);
+}
+
+.tp-map--dashboard .leaflet-bar {
+  border-color: var(--tp-dash-border);
+}
+
+.tp-map--dashboard .leaflet-bar a {
+  background: var(--tp-dash-bg);
+  border-bottom-color: var(--tp-dash-border);
+}
+
+/* Attribution: required by the tile terms; kept small and dark */
+.tp-map .leaflet-control-attribution {
+  background: color-mix(in srgb, var(--tp-black) 55%, transparent);
+  color: var(--tp-text-muted);
+  font-size: 10px;
+}
+
+.tp-map .leaflet-control-attribution a {
+  color: var(--tp-text-muted);
+}
