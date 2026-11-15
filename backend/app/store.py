@@ -80,6 +80,44 @@ class Store:
             history.append(latest)
         return joined
 
+    # ------------------------------------------------------------ pods
+
+    def offer_pod(self, pod: Pod) -> Pod:
+        """Remember a pod the matcher returned and add the students who already joined it."""
+        self.pods[pod.id] = pod
+        return self.pod_with_joins(pod)
+
+    def pod_with_joins(self, pod: Pod) -> Pod:
+        known = {m.user_id for m in pod.members}
+        joined = [m for m in self.pod_joins.get(pod.id, []) if m.user_id not in known]
+        return pod.model_copy(update={"members": [*pod.members, *joined]})
+
+    def join_pod(self, pod_id: str, user: User) -> Pod:
+        """Add a student to a pod. Joining twice changes nothing."""
+        pod = self.pod_with_joins(self.pods[pod_id])
+        if any(m.user_id == user.id for m in pod.members):
+            return pod
+        self.pod_joins.setdefault(pod_id, []).append(
+            PodMember(user_id=user.id, display_name=user.display_name, initials=initials(user.display_name))
+        )
+        return self.pod_with_joins(self.pods[pod_id])
+
+    # ------------------------------------------------------------ alerts
+
+    def add_alert(self, alert: Alert) -> Alert:
+        self.alerts[alert.id] = alert
+        return alert
+
+    def resolve_alert(self, alert_id: str) -> Optional[Alert]:
+        alert = self.alerts.get(alert_id)
+        if alert is None:
+            return None
+        resolved = alert.model_copy(update={"status": "resolved", "resolved_at": now()})
+        self.alerts[alert_id] = resolved
+        return resolved
+
+    def open_alerts(self) -> List[Alert]:
+        alerts = [a for a in self.alerts.values() if a.status == "open"]
         return sorted(alerts, key=lambda a: a.created_at, reverse=True)
 
 
@@ -94,6 +132,9 @@ def display_name_from_email(email: str) -> str:
         return f"{first} {parts[-1][0].upper()}."
     return first
 
+
+def initials(display_name: str) -> str:
+    return "".join(part[0] for part in display_name.replace(".", " ").split()).upper()[:2]
 
 
 store = Store()
