@@ -17,8 +17,12 @@ Backend (Python 3.9 or newer):
 cd backend
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-uvicorn app.main:app --reload
+python data/download_graph.py    # once, needs internet: saves the street graph
+python -m data.generate          # once: creates the simulated datasets
+python -m uvicorn app.main:app --reload
 ```
+
+If the two data steps are skipped the API still runs, but it serves example data. Check `http://localhost:8000/health`: `"data": "ready"` means the real data is in use.
 
 Frontend (Node 18 or newer):
 
