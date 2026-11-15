@@ -69,9 +69,19 @@ export interface MapProps {
   /** "mobile" is navy like the student app, "dashboard" is dark grey. */
   variant?: "mobile" | "dashboard";
 }
-const tileKey = import.meta.env.VITE_CARTO_BASEMAPS_KEY?.trim() ?? "";
 
-const TILE_URL = `https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=${encodeURIComponent(tileKey)}`;
+const CARTO_KEY = import.meta.env.VITE_CARTO_KEY?.trim();
+
+const TILE_URL =
+  "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" +
+  (CARTO_KEY ? `?key=${encodeURIComponent(CARTO_KEY)}` : "");
+
+if (!CARTO_KEY && import.meta.env.DEV) {
+  console.warn(
+    "[map] VITE_CARTO_KEY is not set, so map tiles show an API KEY REQUIRED watermark. " +
+      "Add your CARTO basemaps key to frontend/.env.local and restart npm run dev.",
+  );
+}
 
 const TILE_ATTRIBUTION =
   '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
