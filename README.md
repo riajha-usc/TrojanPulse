@@ -6,7 +6,8 @@
 
 **By Trojans For Trojans**
 
-A peer-safety web app for late-night walks around USC.<br/>
+A voice-triggered safety net for students walking alone at USC,<br/>
+with walking pods, safer routes and a live campus dashboard.<br/>
 Built at the AI@USC hackathon, November 14 to 15, 2026.
 
 ![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)
