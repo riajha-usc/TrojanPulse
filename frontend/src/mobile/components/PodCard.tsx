@@ -24,7 +24,8 @@ export default function PodCard({ pod, joined, onJoin }: Props) {
           </p>
 
           <p className="pod-meeting-details">
-            Leave in {pod.leaves_in_min} min · {pod.meeting_point_label}
+            {pod.leaves_in_min > 0 ? `Leave in ${pod.leaves_in_min} min` : "Leaving now"} ·{" "}
+            {pod.meeting_point_label}
           </p>
         </div>
 

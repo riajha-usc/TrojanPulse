@@ -39,7 +39,7 @@ export function exportSummary(
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
-  link.download = `trojanpulse-summary-${now.toISOString().slice(0, 10)}.txt`;
+  link.download = `trojanpulse-summary-${now.toLocaleDateString("en-CA")}.txt`;
   link.click();
   URL.revokeObjectURL(url);
 }
