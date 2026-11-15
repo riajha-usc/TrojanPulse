@@ -121,7 +121,8 @@ def _summary(kind: str, street: str, count: int) -> str:
         response = Groq().chat.completions.create(
             model=GROQ_MODEL,
             temperature=0,
-            max_tokens=40,
+            reasoning_effort="low",
+            max_completion_tokens=300,  # room for the model's reasoning before the sentence
             messages=[
                 {
                     "role": "system",

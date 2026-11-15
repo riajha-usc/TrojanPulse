@@ -16,7 +16,8 @@ from typing import List, Optional
 from data import places, store
 from data.graph import intersection, load_graph
 
-GROQ_MODEL = "llama-3.1-8b-instant"
+# Groq retired llama-3.1-8b-instant in August 2026. Override with GROQ_LLM_MODEL if this one changes.
+GROQ_MODEL = os.getenv("GROQ_LLM_MODEL", "openai/gpt-oss-20b")
 CATEGORIES = ["theft", "robbery", "assault", "vandalism", "vehicle break-in", "other"]
 
 SYSTEM_PROMPT = f"""You read campus safety alert emails and return JSON only, with these keys:
@@ -51,6 +52,7 @@ def parse_with_llm(client, text: str) -> dict:
     response = client.chat.completions.create(
         model=GROQ_MODEL,
         temperature=0,
+        reasoning_effort="low",
         response_format={"type": "json_object"},
         messages=[{"role": "system", "content": SYSTEM_PROMPT}, {"role": "user", "content": text}],
     )
