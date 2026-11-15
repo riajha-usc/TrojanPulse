@@ -62,8 +62,8 @@ export interface MapProps {
   heatmapPoints?: HeatmapPoint[];
   /** Open alerts: red pins with a pulsing ring. */
   alertPins?: AlertPin[];
-  /** Height in pixels. Width always fills the container. */
-  height?: number;
+  /** Height in pixels, or any CSS height such as "100%". Width always fills the container. */
+  height?: number | string;
   /** Leaflet zoom level. Higher is closer. */
   zoom?: number;
   /** "mobile" is navy like the student app, "dashboard" is dark grey. */
@@ -93,6 +93,17 @@ function Recenter({ center }: { center: LatLng }) {
   useEffect(() => {
     map.panTo([center.lat, center.lng]);
   }, [map, center.lat, center.lng]);
+  return null;
+}
+
+/** Redraws the map when its box changes size, for example when a panel stretches. */
+function FitToContainer() {
+  const map = useMap();
+  useEffect(() => {
+    const observer = new ResizeObserver(() => map.invalidateSize());
+    observer.observe(map.getContainer());
+    return () => observer.disconnect();
+  }, [map]);
   return null;
 }
 
@@ -178,6 +189,7 @@ export default function Map({
       >
         <TileLayer url={TILE_URL} attribution={TILE_ATTRIBUTION} subdomains="abcd" maxZoom={20} />
         <Recenter center={center} />
+        <FitToContainer />
 
         {heatmapPoints && heatmapPoints.length > 0 && <HeatLayer points={heatmapPoints} />}
 
