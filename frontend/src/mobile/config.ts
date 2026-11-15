@@ -30,7 +30,7 @@ export const CONFIG = {
 
   requestTimeoutMs: 15_000,
   audioUploadTimeoutMs: 30_000,
-  locationFreshForMs: 60_000,
+  locationFreshForMs: 600_000,
 
   /**
    * Compatibility only. Fresh voice triggers must not be silently muted.
