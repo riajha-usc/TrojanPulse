@@ -187,3 +187,15 @@ def test_location_update_is_relayed_to_other_clients(client):
         phone.send_json({"nonsense": True})  # malformed messages are ignored
         phone.send_json(update)
         assert dashboard.receive_json() == update
+
+
+def test_alert_counts_the_members_of_the_joined_pod(client):
+    token = client.post("/auth/login", json={"email": "ria.jha@usc.edu"}).json()["token"]
+    headers = {"Authorization": f"Bearer {token}"}
+    pod = client.get("/pods?to_lat=34.0297&to_lng=-118.2915").json()["pods"][0]
+    joined = client.post(f"/pods/{pod['id']}/join", headers=headers).json()
+    walk = client.post("/walks", json={**WALK_BODY, "pod_id": pod["id"]}, headers=headers).json()
+
+    alert = client.post("/alerts", json={"walk_id": walk["id"], "source": "manual", "location": LOC}).json()
+    assert alert["pod_notified"] == len(joined["members"]) - 1 == len(pod["members"])
+
