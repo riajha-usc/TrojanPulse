@@ -70,7 +70,8 @@ export interface MapProps {
   variant?: "mobile" | "dashboard";
 }
 
-const CARTO_KEY = import.meta.env.VITE_CARTO_KEY?.trim();
+// The key comes from the build, or from the server when it serves the page (backend/app/web.py).
+const CARTO_KEY = (import.meta.env.VITE_CARTO_KEY || window.TP_RUNTIME?.cartoKey)?.trim();
 
 const TILE_URL =
   "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" +

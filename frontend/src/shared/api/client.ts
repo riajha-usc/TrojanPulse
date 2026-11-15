@@ -9,8 +9,14 @@
 
 import type { components } from "./schema";
 
-export const API_URL: string = import.meta.env.VITE_API_URL ?? "http://localhost:8000";
-export const WS_URL: string = import.meta.env.VITE_WS_URL ?? "ws://localhost:8000/ws";
+// Development talks to the local backend. A production build is served by the
+// backend itself (see backend/app/web.py), so it uses the page's own address.
+const HERE = import.meta.env.PROD && typeof window !== "undefined" ? window.location.origin : null;
+
+export const API_URL: string = import.meta.env.VITE_API_URL ?? HERE ?? "http://localhost:8000";
+export const WS_URL: string =
+  import.meta.env.VITE_WS_URL ??
+  (HERE ? HERE.replace(/^http/, "ws") + "/ws" : "ws://localhost:8000/ws");
 
 // Types screens will need, re-exported so nobody imports schema.d.ts directly.
 type S = components["schemas"];
