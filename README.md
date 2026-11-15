@@ -4,7 +4,7 @@
 
 A voice-triggered safety net for students walking alone at USC, with walking pods, safer routes and a live campus dashboard. Built at the AI@USC hackathon, November 14 to 15, 2026.
 
-**[Open the live app](https://trojan-pulse.replit.app)** · **[Campus Pulse live dashboard](https://trojan-pulse.replit.app/dashboard)** · **[Watch the demo video](https://youtu.be/lXa7X5mqJLU)** · **[Technical documentation](docs/technical-documentation.pdf)**
+**[Student app](https://trojan-pulse.replit.app)** · **[Campus Pulse dashboard](https://trojan-pulse.replit.app/dashboard)** · **[Demo video](https://youtu.be/lXa7X5mqJLU)** · **[Technical documentation](docs/technical-documentation.pdf)**
 
 ![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white) ![React](https://img.shields.io/badge/React_18-20232A?logo=react&logoColor=61DAFB) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white) ![Leaflet](https://img.shields.io/badge/Leaflet-199900?logo=leaflet&logoColor=white) ![Groq Whisper](https://img.shields.io/badge/Groq-Whisper-F55036) ![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?logo=scikitlearn&logoColor=white) ![OpenStreetMap](https://img.shields.io/badge/OpenStreetMap-7EBC6F?logo=openstreetmap&logoColor=white)
 
