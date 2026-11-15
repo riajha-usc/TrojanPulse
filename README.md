@@ -167,11 +167,11 @@ docs             design doc and team guides
 
 ## Team
 
-| | Built |
+| Member | Built |
 | --- | --- |
-| [Ria Jha](https://github.com/riajha-usc) | Project lead. System architecture and API contract. The real-time voice trigger pipeline: audio intake, Groq Whisper, signal fusion and alerting. ML and LLM service integration, live updates, tests and deployment |
-| [Soham Banerjee](https://github.com/Soham286) | Street graph, routing, pod matching, LLM incident extraction and hazard summaries, forecast, simulated data |
-| [Arin Paul](https://github.com/ArinPaul) | Campus Pulse dashboard, shared map and API client |
-| [Sharayu Nagre](https://github.com/sharayu-n) | Student app: planning, Walk Mode, countdown, alert screens |
+| [Ria Jha](https://github.com/riajha-usc) | System architecture and API contract. The real-time voice trigger pipeline: audio intake, Groq Whisper integration, signal fusion and alerting. Integration of the ML and LLM services into the API, live WebSocket updates, tests and deployment. |
+| [Soham Banerjee](https://github.com/Soham286) | Street graph, safest and fastest routing, pod matching, hazard grouping and LLM summaries, LLM incident extraction, demand forecast and the simulated datasets. |
+| [Arin Paul](https://github.com/ArinPaul) | Campus Pulse dashboard, the shared map component, the typed API client and the WebSocket hook. |
+| [Sharayu Nagre](https://github.com/sharayu-n) | Student app: walk planning, Walk Mode, audio capture, location sharing, the cancel countdown and the alert screens. |
 
 Architecture, the AI pipeline, the API reference and the pilot plan are in the [technical documentation](docs/technical-documentation.pdf). The design doc and build guides are also in [`docs`](docs).
