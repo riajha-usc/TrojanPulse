@@ -1,8 +1,12 @@
 # TrojanPulse
 
-**Start a walk, and you are never walking alone.** By Trojans For Trojans.
+**Start a walk, and you are never walking alone.** 
 
 A voice-triggered safety net for students walking alone at USC, with walking pods, safer routes and a live campus dashboard. Built at the AI@USC hackathon, November 14 to 15, 2026.
+
+_By Trojans For Trojans_
+
+
 
 <br/>
 
