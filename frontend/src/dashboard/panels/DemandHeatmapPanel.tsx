@@ -13,8 +13,8 @@ export function DemandHeatmapPanel({ alerts }: { alerts: Alert[] }) {
   return (
     <Panel
       className="dash-heatmap"
-      title="Fryft wait-time surges and walk demand"
-      aside={data ? `Predicted for the next ${data.window_min} minutes, anonymized` : undefined}
+      title="Walk and ride demand"
+      aside={data ? `Last ${data.window_min} minutes, anonymized` : undefined}
     >
       {data ? (
         <div className="dash-heatmap__map">
@@ -32,10 +32,10 @@ export function DemandHeatmapPanel({ alerts }: { alerts: Alert[] }) {
       )}
       <ul className="dash-legend" aria-label="Map legend">
         <li>
-          <span className="dash-legend__dot dash-legend__dot--demand" /> High demand
+          <span className="dash-legend__dot dash-legend__dot--demand" /> Demand
         </li>
         <li>
-          <span className="dash-legend__dot dash-legend__dot--peak" /> Predicted surge peak
+          <span className="dash-legend__dot dash-legend__dot--peak" /> Peak demand
         </li>
         <li>
           <span className="dash-legend__dot dash-legend__dot--alert" /> Open alert

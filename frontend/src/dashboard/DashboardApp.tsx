@@ -26,6 +26,10 @@ export default function DashboardApp() {
     <div className="dash">
       <DashboardHeader summary={summary.data} />
       <main className="dash-grid">
+        {/* Top right on a laptop, first on a narrow screen: a new alert is visible without scrolling. */}
+        <div className="dash-alert-slot">
+          <LiveAlertPanel alerts={alerts} error={alertsError} onResolve={resolve} />
+        </div>
         <DemandHeatmapPanel alerts={alerts} />
         <div className="dash-side">
           <TransitForecastPanel />
@@ -35,7 +39,6 @@ export default function DashboardApp() {
           <SafetyReportsTile summary={summary.data} error={summary.error} />
           <PodsTile summary={summary.data} error={summary.error} />
           <ResponseTimeTile summary={summary.data} error={summary.error} />
-          <LiveAlertPanel alerts={alerts} error={alertsError} onResolve={resolve} />
         </div>
       </main>
     </div>

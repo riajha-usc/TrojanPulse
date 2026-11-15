@@ -63,7 +63,8 @@ export function ResponseTimeTile({ summary, error }: TileProps) {
         <>
           <p className="dash-stat">{formatResponseTime(summary.median_response_s)}</p>
           <p className="dash-stat__text">
-            Median tonight. Pod and contacts are notified after the 10 s cancel window.
+            Simulated value until real responses are timed. Pod and contacts are notified after the
+            10 s cancel window.
           </p>
         </>
       ) : (

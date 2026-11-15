@@ -44,17 +44,32 @@
 .dash-grid {
   display: grid;
   grid-template-columns: minmax(0, 2.3fr) minmax(300px, 1fr);
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "map alert"
+    "map side"
+    "tiles tiles";
   gap: 20px;
 }
 
+.dash-alert-slot {
+  grid-area: alert;
+  min-width: 0;
+}
+
+.dash-heatmap {
+  grid-area: map;
+}
+
 .dash-side {
+  grid-area: side;
   display: grid;
   gap: 20px;
   align-content: start;
 }
 
 .dash-tiles {
-  grid-column: 1 / -1;
+  grid-area: tiles;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
   gap: 20px;
@@ -63,6 +78,8 @@
 @media (max-width: 960px) {
   .dash-grid {
     grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+    grid-template-areas: "alert" "map" "side" "tiles";
   }
 }
 
