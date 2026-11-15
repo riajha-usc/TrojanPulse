@@ -5,3 +5,8 @@ python-multipart
 pytest
 httpx
 ruff
+osmnx
+networkx
+numpy
+scikit-learn
+groq
