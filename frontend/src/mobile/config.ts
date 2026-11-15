@@ -32,6 +32,9 @@ export const CONFIG = {
   audioUploadTimeoutMs: 30_000,
   locationFreshForMs: 600_000,
 
+  /** Demo only: start from Leavey Library when GPS is missing or off campus. */
+  demoLocationFallback: true,
+
   /**
    * Compatibility only. Fresh voice triggers must not be silently muted.
    * The recording lifecycle must discard responses from stopped sessions.

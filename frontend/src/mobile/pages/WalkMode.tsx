@@ -6,6 +6,7 @@ import DpsButton from "../components/DpsButton";
 import HoldForHelpButton from "../components/HoldForHelpButton";
 import SimulatedLabel from "../components/SimulatedLabel";
 import { useAsyncAction } from "../hooks/useAsyncAction";
+import { DEMO_START, isDemoPosition } from "../hooks/campusLocation";
 import { useGeolocation } from "../hooks/useGeolocation";
 import { useLocationSharing } from "../hooks/useLocationSharing";
 import { useWalkAudio, type AudioResult } from "../hooks/useWalkAudio";
@@ -156,6 +157,11 @@ function ActiveWalk({
           )}
         </div>
       </section>
+      {isDemoPosition(lastPosition) && (
+        <p className="mobile-feedback" role="note">
+          Demo location: {DEMO_START.label}. Your location is unavailable or off campus.
+        </p>
+      )}
       {geo.status !== "live" && (
         <p className="mobile-feedback" role="status">
           {geo.error ?? "Waiting for a fresh GPS fix."}{" "}

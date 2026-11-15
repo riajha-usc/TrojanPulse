@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { CONFIG } from "../config";
+import { campusGeolocation } from "./campusLocation";
 import type { LatLng } from "../types";
 
 export type GeoStatus = "idle" | "waiting" | "live" | "stale" | "denied" | "unavailable";
@@ -55,8 +56,9 @@ function settings(options: GeoOptions) {
   };
 }
 
-function browserGeolocation(): Geolocation | null {
-  return typeof navigator !== "undefined" ? (navigator.geolocation ?? null) : null;
+function browserGeolocation(): Pick<Geolocation, "watchPosition" | "clearWatch"> | null {
+  if (typeof navigator === "undefined") return null;
+  return campusGeolocation(navigator.geolocation ?? null);
 }
 
 function readFix(value: GeolocationPosition): GeoFix | null {

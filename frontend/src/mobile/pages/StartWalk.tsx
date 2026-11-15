@@ -21,6 +21,7 @@ import RouteToggle from "../components/RouteToggle";
 import StartWalkButton from "../components/StartWalkButton";
 import SimulatedLabel from "../components/SimulatedLabel";
 import { useAsyncAction } from "../hooks/useAsyncAction";
+import { DEMO_START, isDemoPosition } from "../hooks/campusLocation";
 import { getCurrentFix, type GeoFix } from "../hooks/useGeolocation";
 import type { MobileNavigationState, RouteKind, Schema } from "../types";
 import "../mobile.css";
@@ -211,6 +212,12 @@ export default function StartWalk() {
 
           {routes && selected && (
             <>
+              {isDemoPosition(originFix?.position) && (
+                <p className="mobile-feedback" role="note">
+                  Demo start: {DEMO_START.label}. Your location is unavailable or off campus.
+                </p>
+              )}
+
               <RouteToggle
                 value={routeKind}
                 onChange={setRouteKind}
