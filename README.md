@@ -44,6 +44,21 @@ In the student app, allow location and microphone access. If location is unavail
 | Dashboard | http://localhost:5173/dashboard |
 | API docs | http://localhost:8000/docs |
 
+## Deploy on Replit
+
+One server hosts the API, the student app and the dashboard.
+
+1. Import this repo from GitHub into Replit.
+2. In Secrets, add `GROQ_API_KEY` and `VITE_CARTO_KEY`.
+3. Publish as a **Reserved VM**. Walks and alerts are kept in memory, so the app needs one server that stays on.
+
+| Setting | Value |
+| --- | --- |
+| Build command | `bash replit-build.sh` |
+| Run command | `bash -c "cd backend && python -m uvicorn app.main:app --host 0.0.0.0 --port 5000"` |
+
+The student app is at `/` and the dashboard at `/dashboard`. `/health` should show `"data": "ready"` and `"transcription": "groq"`.
+
 ## Project layout
 
 ```
