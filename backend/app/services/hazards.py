@@ -16,11 +16,11 @@ from typing import List
 
 from app.schemas import Hazard, HazardType, LatLng
 from data import places, store
+from data.extract_incidents import GROQ_MODEL
 from data.graph import meters, nearest_street, short_street
 
 GROUP_RADIUS_M = 30
 ACTIVE_DAYS = 7
-GROQ_MODEL = "llama-3.1-8b-instant"
 
 _new_reports: List[dict] = []
 

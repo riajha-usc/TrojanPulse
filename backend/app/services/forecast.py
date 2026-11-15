@@ -3,8 +3,8 @@
 All of this runs on simulated data for the hackathon. The functions must
 compute their results from that data, not return hardcoded values.
 
-Heatmap and corridors are counts only; a map square needs at least 3 people before it shows up,
-so no individual can be picked out. Never returns anyone's path.
+Heatmap and corridors are counts only; a map square or a corridor needs at least 3 people before it
+shows up, so no individual can be picked out. Never returns anyone's path.
 
 The forecast is a scikit-learn linear regression trained on 3 weeks of ride requests. It learns how
 demand depends on the time of night, Thursday-to-Saturday nights, the pickup spot, and crowds let
@@ -84,7 +84,8 @@ def get_corridors() -> CorridorsResponse:
         for w in store.load("walkers")
         if tonight_start <= datetime.fromisoformat(w["depart_at"]) <= now
     )
-    ranked = sorted(pairs.items(), key=lambda item: (-item[1], item[0]))[:TOP_CORRIDORS]
+    shared = {pair: n for pair, n in pairs.items() if n >= MIN_PEOPLE_PER_SQUARE}  # never one person's walk
+    ranked = sorted(shared.items(), key=lambda item: (-item[1], item[0]))[:TOP_CORRIDORS]
     return CorridorsResponse(items=[Corridor(from_label=a, to_label=b, walks=n) for (a, b), n in ranked])
 
 
@@ -115,7 +116,7 @@ def get_forecast() -> ForecastResponse:
             for slot in _future_slots(current)
         ]
         series.append(ForecastSeries(service=service, buckets=buckets))
-    return ForecastResponse(series=series, surge_note=_surge_note(predicted, tonight, current))
+    return ForecastResponse(series=series, surge_note=_surge_note(predicted, tonight))
 
 
 def get_wait_times() -> WaitTimesResponse:
@@ -133,7 +134,7 @@ def get_wait_times() -> WaitTimesResponse:
             for r in rides
             if r["pickup_label"] == pickup and now - SLOT <= datetime.fromisoformat(r["time"]) < now
         ]
-        now_min = np.mean(recent) if recent else wait_for(predicted[("fryft", pickup, current)][0])
+        now_min = float(np.mean(recent)) if recent else wait_for(predicted[("fryft", pickup, current)][0])
         later = predicted.get(("fryft", pickup, current + 1))
         in_30 = wait_for(later[0]) if later else now_min
         items.append(WaitTime(location_label=pickup, now_min=round(now_min), in_30_min=round(in_30)))
@@ -220,7 +221,7 @@ def _predict_tonight() -> Dict[tuple, Tuple[float, float]]:
     return result
 
 
-def _surge_note(predicted: Dict[tuple, Tuple[float, float]], tonight, current: int) -> str:
+def _surge_note(predicted: Dict[tuple, Tuple[float, float]], tonight) -> str:
     """One sentence naming the biggest predicted Fryft surge, or empty when none is coming."""
     surges = [
         (pred - normal, slot, pickup)  # the biggest jump over normal wins

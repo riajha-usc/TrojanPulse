@@ -28,9 +28,8 @@ def main() -> None:
     ox.settings.use_cache = False  # we keep our own saved file; don't leave OSMnx's cache/ folder behind
     ox.settings.useful_tags_way = list(ox.settings.useful_tags_way) + ["footway"]  # marks sidewalks
     CACHE_DIR.mkdir(exist_ok=True)
-    graph = ox.graph_from_bbox(
-        bbox=(WEST, SOUTH, EAST, NORTH), network_type="walk", custom_filter=WALK_FILTER
-    )  # "walk": one-way streets work both ways
+    # network_type="walk" keeps one-way streets walkable in both directions.
+    graph = ox.graph_from_bbox(bbox=(WEST, SOUTH, EAST, NORTH), network_type="walk", custom_filter=WALK_FILTER)
     ox.save_graphml(graph, GRAPH_FILE)
     print(f"Saved {len(graph.nodes)} corners and {len(graph.edges)} street segments to {GRAPH_FILE}")
 

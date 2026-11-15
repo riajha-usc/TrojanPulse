@@ -359,3 +359,7 @@ def test_wait_times_grow_before_the_surge(data_dir):
     assert set(items) == set(places.PICKUP_SPOTS)
     assert items["Leavey Library"].in_30_min > items["Leavey Library"].now_min
     assert all(w.now_min >= 1 and w.in_30_min >= 1 for w in items.values())
+
+
+def test_corridors_never_show_a_single_walk(data_dir):
+    assert all(c.walks >= forecast.MIN_PEOPLE_PER_SQUARE for c in forecast.get_corridors().items)

@@ -8,6 +8,5 @@ ruff
 osmnx
 networkx
 numpy
-pandas
 scikit-learn
 groq
