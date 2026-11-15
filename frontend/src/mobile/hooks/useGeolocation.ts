@@ -35,7 +35,7 @@ export class LocationError extends Error {
 }
 
 // A freshness policy, not a location. Callers can override it through GeoOptions.
-const DEFAULT_FRESH_FOR_MS = 15_000;
+const DEFAULT_FRESH_FOR_MS = CONFIG.locationFreshForMs;
 
 function positiveMs(value: number | undefined, fallback: number): number {
   return value !== undefined && Number.isFinite(value) && value > 0 ? value : fallback;
@@ -45,7 +45,9 @@ function settings(options: GeoOptions) {
   return {
     enableHighAccuracy: options.enableHighAccuracy ?? true,
     maximumAge:
-      options.maximumAge !== undefined && Number.isFinite(options.maximumAge) && options.maximumAge >= 0
+      options.maximumAge !== undefined &&
+      Number.isFinite(options.maximumAge) &&
+      options.maximumAge >= 0
         ? options.maximumAge
         : 0,
     timeout: positiveMs(options.timeout, CONFIG.requestTimeoutMs),
@@ -54,18 +56,25 @@ function settings(options: GeoOptions) {
 }
 
 function browserGeolocation(): Geolocation | null {
-  return typeof navigator !== "undefined" ? navigator.geolocation ?? null : null;
+  return typeof navigator !== "undefined" ? (navigator.geolocation ?? null) : null;
 }
 
 function readFix(value: GeolocationPosition): GeoFix | null {
   const { latitude, longitude, accuracy } = value.coords;
 
   if (
-    !Number.isFinite(latitude) || latitude < -90 || latitude > 90 ||
-    !Number.isFinite(longitude) || longitude < -180 || longitude > 180 ||
-    !Number.isFinite(accuracy) || accuracy < 0 ||
-    !Number.isFinite(value.timestamp) || value.timestamp <= 0
-  ) return null;
+    !Number.isFinite(latitude) ||
+    latitude < -90 ||
+    latitude > 90 ||
+    !Number.isFinite(longitude) ||
+    longitude < -180 ||
+    longitude > 180 ||
+    !Number.isFinite(accuracy) ||
+    accuracy < 0 ||
+    !Number.isFinite(value.timestamp) ||
+    value.timestamp <= 0
+  )
+    return null;
 
   return {
     position: { lat: latitude, lng: longitude },
@@ -76,7 +85,10 @@ function readFix(value: GeolocationPosition): GeoFix | null {
 
 function locationError(error: GeolocationPositionError): LocationError {
   if (error.code === 1) {
-    return new LocationError("denied", "Location permission was denied. Allow location access to continue.");
+    return new LocationError(
+      "denied",
+      "Location permission was denied. Allow location access to continue.",
+    );
   }
   if (error.code === 3) {
     return new LocationError("timeout", "Timed out waiting for your location.");
@@ -186,11 +198,16 @@ export function useGeolocation(enabled: boolean, options: GeoOptions = {}) {
 
   return {
     status,
-    position: status === "live" ? state.fix?.position ?? null : null,
+    position: status === "live" ? (state.fix?.position ?? null) : null,
     lastKnownPosition: state.fix?.position ?? null,
     updatedAt: state.fix?.timestamp ?? null,
     accuracy: state.fix?.accuracy ?? null,
-    error: status === "idle" ? null : status === "stale" ? "Your last location is out of date." : state.error,
+    error:
+      status === "idle"
+        ? null
+        : status === "stale"
+          ? "Your last location is out of date."
+          : state.error,
   };
 }
 
@@ -231,7 +248,10 @@ export function getCurrentFix(signal?: AbortSignal, options: GeoOptions = {}): P
 
     const cancel = () => fail(new DOMException("Location request cancelled.", "AbortError"));
     signal?.addEventListener("abort", cancel, { once: true });
-    timer = setTimeout(() => fail(new LocationError("timeout", "Timed out waiting for your location.")), timeout);
+    timer = setTimeout(
+      () => fail(new LocationError("timeout", "Timed out waiting for your location.")),
+      timeout,
+    );
 
     try {
       watchId = geolocation.watchPosition(
@@ -261,7 +281,10 @@ export function getCurrentFix(signal?: AbortSignal, options: GeoOptions = {}): P
 }
 
 /** Compatibility helper. No GPS fix means null; cancellation remains an AbortError. */
-export async function getCurrentPosition(signal?: AbortSignal, options?: GeoOptions): Promise<LatLng | null> {
+export async function getCurrentPosition(
+  signal?: AbortSignal,
+  options?: GeoOptions,
+): Promise<LatLng | null> {
   try {
     return (await getCurrentFix(signal, options)).position;
   } catch (error: unknown) {

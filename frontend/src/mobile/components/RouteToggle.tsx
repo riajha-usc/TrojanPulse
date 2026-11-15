@@ -7,18 +7,9 @@ type Props = {
   fastestMinutes: number;
 };
 
-export default function RouteToggle({
-  value,
-  onChange,
-  safestMinutes,
-  fastestMinutes,
-}: Props) {
+export default function RouteToggle({ value, onChange, safestMinutes, fastestMinutes }: Props) {
   return (
-    <div
-      className="route-toggle"
-      role="group"
-      aria-label="Choose your walking route"
-    >
+    <div className="route-toggle" role="group" aria-label="Choose your walking route">
       <button
         type="button"
         className="route-toggle-button"

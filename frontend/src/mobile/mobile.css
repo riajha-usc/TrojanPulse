@@ -145,7 +145,7 @@
   background: var(--tp-navy-raised);
 }
 
-.tp-mobile .route-toggle-button  {
+.tp-mobile .route-toggle-button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -160,7 +160,9 @@
   font-weight: 650;
   line-height: 1.35;
   text-align: center;
-  transition: background-color 150ms ease, color 150ms ease;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
 }
 
 .route-toggle-button[aria-pressed="true"] {
@@ -865,22 +867,97 @@
   color: var(--tp-text);
   font-size: 12px;
 }
-/* Mobile integration: normal document flow and responsive shared maps. */
-.tp-mobile .tp-map { width: 100%; min-width: 0; flex-shrink: 0; overflow: hidden; }
-.emergency-mini-map { min-width: 0; overflow: hidden; }
-.mobile-login { display: grid; gap: 12px; margin-block: 20px; }
-.mobile-login h1 { margin: 0 0 12px; font-size: 22px; line-height: 1.35; }
-.mobile-login label { font-size: 13px; }
-.mobile-login input { width: 100%; min-width: 0; min-height: 48px; padding: 12px; border: 1px solid var(--tp-navy-border); border-radius: var(--tp-radius); background: var(--tp-navy-raised); color: var(--tp-text); font-size: 16px; }
-.tp-mobile button { overflow-wrap: anywhere; }
-/* Keep street tiles clear within mobile screens. */
-.tp-mobile .tp-map--mobile .leaflet-tile-pane {
-  opacity: 1;
-  filter: none;
+.mobile-pod-matches {
+  min-width: 0;
+  overflow: hidden;
+  padding: 12px;
+  border: 1px solid var(--tp-navy-border);
+  border-radius: var(--tp-radius);
+  background: var(--tp-navy-card);
 }
 
-/* Reduce the glow so it does not obscure streets. */
-.tp-mobile .tp-map--mobile .tp-route-glow {
-  stroke-opacity: 0.12;
-  filter: blur(2px);
+.mobile-pod-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin-bottom: 8px;
+}
+
+.mobile-pod-heading h2 {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.mobile-pod-count {
+  color: var(--tp-text-muted);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.mobile-pod-list {
+  display: grid;
+  max-height: 220px;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  list-style: none;
+  scrollbar-width: thin;
+  scrollbar-color: var(--tp-navy-border) transparent;
+}
+
+.mobile-pod-list > li {
+  min-width: 0;
+}
+
+.mobile-pod-list > li + li {
+  border-top: 1px solid var(--tp-navy-border);
+}
+
+.mobile-pod-matches .pod-card {
+  padding: 10px 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+/* Mobile integration: normal document flow and responsive shared maps. */
+.tp-mobile .tp-map {
+  width: 100%;
+  min-width: 0;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.emergency-mini-map {
+  min-width: 0;
+  overflow: hidden;
+}
+.mobile-login {
+  display: grid;
+  gap: 12px;
+  margin-block: 20px;
+}
+.mobile-login h1 {
+  margin: 0 0 12px;
+  font-size: 22px;
+  line-height: 1.35;
+}
+.mobile-login label {
+  font-size: 13px;
+}
+.mobile-login input {
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  padding: 12px;
+  border: 1px solid var(--tp-navy-border);
+  border-radius: var(--tp-radius);
+  background: var(--tp-navy-raised);
+  color: var(--tp-text);
+  font-size: 16px;
+}
+.tp-mobile button {
+  overflow-wrap: anywhere;
 }

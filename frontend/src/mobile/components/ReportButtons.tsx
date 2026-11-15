@@ -12,11 +12,7 @@ const REPORTS: { type: HazardType; label: string }[] = [
 
 export default function ReportButtons({ onReport }: Props) {
   return (
-    <div
-      className="report-controls"
-      role="group"
-      aria-label="Report a hazard at your location"
-    >
+    <div className="report-controls" role="group" aria-label="Report a hazard at your location">
       <span className="report-controls-label">One-tap report</span>
 
       {REPORTS.map((report) => (

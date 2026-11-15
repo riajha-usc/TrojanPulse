@@ -1,17 +1,23 @@
 import { useEffect, useRef, useState } from "react";
 import { getToken, WS_URL } from "../../shared/api/client";
 import type { LatLng } from "../types";
+import { CONFIG } from "../config";
 
 type PositionFix = { position: LatLng; timestamp: number } | null;
 
 /** Mobile sender while Arin's shared WebSocket hook remains a placeholder. */
 export function useLocationSharing(walkId: string, fix: PositionFix, enabled: boolean) {
   const latest = useRef(fix);
-  useEffect(() => { latest.current = fix; }, [fix]);
+  useEffect(() => {
+    latest.current = fix;
+  }, [fix]);
   const [status, setStatus] = useState<"connecting" | "connected" | "offline">("offline");
 
   useEffect(() => {
-    if (!enabled || typeof WebSocket === "undefined") { setStatus("offline"); return; }
+    if (!enabled || typeof WebSocket === "undefined") {
+      setStatus("offline");
+      return;
+    }
     let disposed = false;
     let socket: WebSocket | null = null;
     let reconnect: ReturnType<typeof setTimeout> | undefined;
@@ -19,12 +25,18 @@ export function useLocationSharing(walkId: string, fix: PositionFix, enabled: bo
     let failures = 0;
     const send = () => {
       const current = latest.current;
-      if (!disposed && current && Date.now() - current.timestamp <= 15_000 &&
-          socket?.readyState === WebSocket.OPEN) {
-        socket.send(JSON.stringify({
-          type: "location.update",
-          payload: { walk_id: walkId, location: current.position },
-        }));
+      if (
+        !disposed &&
+        current &&
+        Date.now() - current.timestamp < CONFIG.locationFreshForMs &&
+        socket?.readyState === WebSocket.OPEN
+      ) {
+        socket.send(
+          JSON.stringify({
+            type: "location.update",
+            payload: { walk_id: walkId, location: current.position },
+          }),
+        );
       }
     };
     const connect = () => {
@@ -42,7 +54,9 @@ export function useLocationSharing(walkId: string, fix: PositionFix, enabled: bo
           send();
           interval = setInterval(send, 5_000);
         };
-        socket.onerror = () => { if (!disposed) setStatus("offline"); };
+        socket.onerror = () => {
+          if (!disposed) setStatus("offline");
+        };
         socket.onclose = () => {
           clearInterval(interval);
           if (disposed) return;

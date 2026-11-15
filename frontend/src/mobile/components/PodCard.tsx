@@ -8,23 +8,19 @@ type Props = {
 };
 
 export default function PodCard({ pod, joined, onJoin }: Props) {
-  const headingId = useId();
+  const membersId = useId();
+  const members = pod.members.map((member) => member.display_name).join(", ") || "Walking pod";
 
   return (
-    <section className="pod-card" aria-labelledby={headingId}>
-      <div className="pod-card-heading">
-        <h2 id={headingId}>Walking Pod matches</h2>
-        <span className="pod-verification">USC walking pod</span>
-      </div>
-
+    <article className="pod-card" aria-labelledby={membersId}>
       <div className="pod-card-content">
         <div className="pod-avatar" aria-hidden="true">
           {pod.members[0]?.initials ?? "P"}
         </div>
 
         <div className="pod-card-details">
-          <p className="pod-member-names">
-            {pod.members.map((member) => member.display_name).join(", ")}
+          <p className="pod-member-names" id={membersId}>
+            {members}
           </p>
 
           <p className="pod-meeting-details">
@@ -32,15 +28,10 @@ export default function PodCard({ pod, joined, onJoin }: Props) {
           </p>
         </div>
 
-        <button
-          type="button"
-          className="pod-join-button"
-          onClick={onJoin}
-          disabled={joined}
-        >
+        <button type="button" className="pod-join-button" onClick={onJoin} disabled={joined}>
           {joined ? "Joined" : "Join Pod"}
         </button>
       </div>
-    </section>
+    </article>
   );
 }

@@ -43,27 +43,49 @@ function observe<T>(
       controller.abort();
       finish(() => reject(new DOMException("Request cancelled.", "AbortError")));
     };
-    if (callerSignal?.aborted) { cancel(); return; }
+    if (callerSignal?.aborted) {
+      cancel();
+      return;
+    }
     callerSignal?.addEventListener("abort", cancel, { once: true });
     timer = setTimeout(() => {
       controller.abort();
-      finish(() => reject(new ApiFailure(
-        mutation ? "Request timed out. The server may still have processed it." :
-          "The server took too long to respond.", mutation,
-      )));
+      finish(() =>
+        reject(
+          new ApiFailure(
+            mutation
+              ? "Request timed out. The server may still have processed it."
+              : "The server took too long to respond.",
+            mutation,
+          ),
+        ),
+      );
     }, timeoutMs);
     try {
       task(controller.signal).then(
         (value) => finish(() => resolve(value)),
-        (error: unknown) => finish(() => {
-          if (isAbortError(error)) { reject(error); return; }
-          const uncertain = mutation &&
-            (!(error instanceof client.ApiError) || error.status === 0 || error.status >= 500);
-          const message = error instanceof Error ? error.message : "The request failed.";
-          reject(new ApiFailure(uncertain ? message + " The server may have received the request." : message, uncertain, error instanceof client.ApiError ? error.status : 0));
-        }),
+        (error: unknown) =>
+          finish(() => {
+            if (isAbortError(error)) {
+              reject(error);
+              return;
+            }
+            const uncertain =
+              mutation &&
+              (!(error instanceof client.ApiError) || error.status === 0 || error.status >= 500);
+            const message = error instanceof Error ? error.message : "The request failed.";
+            reject(
+              new ApiFailure(
+                uncertain ? message + " The server may have received the request." : message,
+                uncertain,
+                error instanceof client.ApiError ? error.status : 0,
+              ),
+            );
+          }),
       );
-    } catch (error: unknown) { finish(() => reject(error)); }
+    } catch (error: unknown) {
+      finish(() => reject(error));
+    }
   });
 }
 
@@ -73,8 +95,13 @@ export function getHealth(signal?: AbortSignal) {
     const response = await fetch(new URL("/health", client.API_URL), { signal: requestSignal });
     if (!response.ok) throw new Error("Could not check the backend data mode.");
     const body: unknown = await response.json();
-    if (!body || typeof body !== "object" || !("simulated_data" in body) ||
-        typeof body.simulated_data !== "boolean") throw new Error("Invalid backend data mode.");
+    if (
+      !body ||
+      typeof body !== "object" ||
+      !("simulated_data" in body) ||
+      typeof body.simulated_data !== "boolean"
+    )
+      throw new Error("Invalid backend data mode.");
     return { simulated_data: body.simulated_data };
   }, signal);
 }
@@ -98,4 +125,5 @@ export const resolveAlert = (id: string, signal?: AbortSignal) =>
   observe(() => client.resolveAlert(id), signal, true);
 export const getAlerts = (signal?: AbortSignal) => observe(() => client.getAlerts(), signal);
 
-export const login = (email: string, signal?: AbortSignal) => observe(() => client.login(email), signal);
+export const login = (email: string, signal?: AbortSignal) =>
+  observe(() => client.login(email), signal);

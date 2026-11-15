@@ -4,11 +4,7 @@ type Props = {
   loading?: boolean;
 };
 
-export default function StartWalkButton({
-  onClick,
-  disabled = false,
-  loading = false,
-}: Props) {
+export default function StartWalkButton({ onClick, disabled = false, loading = false }: Props) {
   return (
     <button
       type="button"

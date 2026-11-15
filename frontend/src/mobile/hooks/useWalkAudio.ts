@@ -9,8 +9,11 @@ type Options = { walkId: string; enabled: boolean; onTrigger: (result: AudioResu
 
 export function pickMimeType(): string {
   if (typeof MediaRecorder === "undefined") return "";
-  return ["audio/webm;codecs=opus", "audio/webm", "audio/mp4"]
-    .find((type) => MediaRecorder.isTypeSupported(type)) ?? "";
+  return (
+    ["audio/webm;codecs=opus", "audio/webm", "audio/mp4"].find((type) =>
+      MediaRecorder.isTypeSupported(type),
+    ) ?? ""
+  );
 }
 
 export function buildAudioForm(blob: Blob, sequence: number): FormData {
@@ -25,14 +28,24 @@ export function buildAudioForm(blob: Blob, sequence: number): FormData {
 
 /** One complete file per start/stop cycle. Abort discards the incomplete recording. */
 export function recordClip(
-  stream: MediaStream, mimeType: string, durationMs: number, signal: AbortSignal,
+  stream: MediaStream,
+  mimeType: string,
+  durationMs: number,
+  signal: AbortSignal,
   onStarted: () => void = () => {},
 ): Promise<Blob | null> {
   return new Promise((resolve, reject) => {
-    if (signal.aborted) { resolve(null); return; }
+    if (signal.aborted) {
+      resolve(null);
+      return;
+    }
     let recorder: MediaRecorder;
-    try { recorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined); }
-    catch (error) { reject(error); return; }
+    try {
+      recorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
+    } catch (error) {
+      reject(error);
+      return;
+    }
 
     let settled = false;
     let timer: ReturnType<typeof setTimeout> | undefined;
@@ -48,15 +61,25 @@ export function recordClip(
       recorder.onstop = null;
       recorder.onerror = null;
       if (recorder.state !== "inactive") {
-        try { recorder.stop(); } catch { /* Track cleanup is owned by the hook. */ }
+        try {
+          recorder.stop();
+        } catch {
+          /* Track cleanup is owned by the hook. */
+        }
       }
-      if (error) reject(error); else resolve(blob);
+      if (error) reject(error);
+      else resolve(blob);
     };
     const abort = () => finish(null);
-    recorder.ondataavailable = (event) => { if (event.data.size > 0) parts.push(event.data); };
+    recorder.ondataavailable = (event) => {
+      if (event.data.size > 0) parts.push(event.data);
+    };
     recorder.onerror = () => finish(null, new Error("Audio recording failed."));
     recorder.onstop = () => {
-      if (signal.aborted) { finish(null); return; }
+      if (signal.aborted) {
+        finish(null);
+        return;
+      }
       const type = recorder.mimeType || parts[0]?.type || mimeType;
       finish(parts.length ? new Blob(parts, { type }) : null);
     };
@@ -64,14 +87,25 @@ export function recordClip(
     try {
       recorder.start(); // No timeslice: every upload must be independently decodable.
       onStarted();
-      if (settled || signal.aborted) { finish(null); return; }
+      if (settled || signal.aborted) {
+        finish(null);
+        return;
+      }
       timer = setTimeout(() => {
-        if (signal.aborted) { finish(null); return; }
-        try { recorder.stop(); }
-        catch { finish(null, new Error("Could not finish the audio clip.")); }
+        if (signal.aborted) {
+          finish(null);
+          return;
+        }
+        try {
+          recorder.stop();
+        } catch {
+          finish(null, new Error("Could not finish the audio clip."));
+        }
       }, durationMs);
-      watchdog = setTimeout(() => finish(null, new Error("The audio recorder stopped responding.")),
-        durationMs + CONFIG.requestTimeoutMs);
+      watchdog = setTimeout(
+        () => finish(null, new Error("The audio recorder stopped responding.")),
+        durationMs + CONFIG.requestTimeoutMs,
+      );
     } catch (error: unknown) {
       finish(null, error instanceof Error ? error : new Error("Could not start recording."));
     }
@@ -80,16 +114,24 @@ export function recordClip(
 
 export function useWalkAudio({ walkId, enabled, onTrigger }: Options) {
   const callback = useRef(onTrigger);
-  useEffect(() => { callback.current = onTrigger; }, [onTrigger]);
+  useEffect(() => {
+    callback.current = onTrigger;
+  }, [onTrigger]);
   const [status, setStatus] = useState<AudioStatus>("idle");
   const [error, setError] = useState("");
   const [uploadFailing, setUploadFailing] = useState(false);
   const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
-    if (!enabled) { setStatus("idle"); return; }
-    if (!window.isSecureContext || !navigator.mediaDevices?.getUserMedia ||
-        typeof MediaRecorder === "undefined") {
+    if (!enabled) {
+      setStatus("idle");
+      return;
+    }
+    if (
+      !window.isSecureContext ||
+      !navigator.mediaDevices?.getUserMedia ||
+      typeof MediaRecorder === "undefined"
+    ) {
       setStatus("unsupported");
       setError("Microphone recording requires a supported browser on localhost or HTTPS.");
       return;
@@ -124,7 +166,11 @@ export function useWalkAudio({ walkId, enabled, onTrigger }: Options) {
           const next: { blob: Blob; sequence: number } = pending;
           pending = null;
           try {
-            const result = await sendAudio(walkId, buildAudioForm(next.blob, next.sequence), controller.signal);
+            const result = await sendAudio(
+              walkId,
+              buildAudioForm(next.blob, next.sequence),
+              controller.signal,
+            );
             if (!active) return;
             setUploadFailing(false);
             if (result.triggered) {
@@ -138,7 +184,9 @@ export function useWalkAudio({ walkId, enabled, onTrigger }: Options) {
             setUploadFailing(true);
           }
         }
-      } finally { uploading = false; }
+      } finally {
+        uploading = false;
+      }
     }
 
     async function start() {
@@ -157,8 +205,15 @@ export function useWalkAudio({ walkId, enabled, onTrigger }: Options) {
         let sequence = 0;
         let emptyClips = 0;
         while (active && stream.active) {
-          const blob = await recordClip(stream, mimeType, CONFIG.audioChunkMs, controller.signal,
-            () => { if (active) setStatus("listening"); });
+          const blob = await recordClip(
+            stream,
+            mimeType,
+            CONFIG.audioChunkMs,
+            controller.signal,
+            () => {
+              if (active) setStatus("listening");
+            },
+          );
           if (!active) break;
           if (!blob || blob.size === 0) {
             if (++emptyClips >= 3) throw new Error("The microphone returned no audio.");
@@ -171,13 +226,21 @@ export function useWalkAudio({ walkId, enabled, onTrigger }: Options) {
         if (active) throw new Error("The microphone stopped.");
       } catch (caught: unknown) {
         if (active) {
-          const denied = caught instanceof Error &&
+          const denied =
+            caught instanceof Error &&
             (caught.name === "NotAllowedError" || caught.name === "SecurityError");
           setStatus(denied ? "denied" : "error");
-          setError(denied ? "Microphone access was denied. Allow it or use Hold for help." :
-            caught instanceof Error ? caught.message : "Could not record audio.");
+          setError(
+            denied
+              ? "Microphone access was denied. Allow it or use Hold for help."
+              : caught instanceof Error
+                ? caught.message
+                : "Could not record audio.",
+          );
         }
-      } finally { release(); }
+      } finally {
+        release();
+      }
     }
 
     void start();

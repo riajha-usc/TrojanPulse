@@ -3,11 +3,7 @@ import "../mobile.css";
 export default function AppHeader() {
   return (
     <header className="mobile-header">
-      <button
-        className="mobile-header-button"
-        type="button"
-        aria-label="Safety information"
-      >
+      <button className="mobile-header-button" type="button" aria-label="Safety information">
         <svg
           width="22"
           height="22"
@@ -25,11 +21,7 @@ export default function AppHeader() {
         Trojan<span>Pulse</span>
       </span>
 
-      <button
-        className="mobile-header-button"
-        type="button"
-        aria-label="Notifications"
-      >
+      <button className="mobile-header-button" type="button" aria-label="Notifications">
         <svg
           width="22"
           height="22"
