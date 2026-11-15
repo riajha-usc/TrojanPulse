@@ -4,6 +4,8 @@
 
 ### Start a walk, and you are never walking alone.
 
+**By Trojans For Trojans**
+
 A peer-safety web app for late-night walks around USC.<br/>
 Built at the AI@USC hackathon, November 14 to 15, 2026.
 
@@ -88,6 +90,21 @@ A dashboard for USG and GSG, the people who can act on what students report.
 
 Sign-in checks the format of a USC email. It is not USC single sign-on. There is no DPS integration. When location is unavailable or far from campus, the app starts from Leavey Library and says so.
 
+## Ready for a pilot
+
+TrojanPulse is a working product, not a mockup. A student can sign in, plan a route, join a pod, walk, trigger an alert by voice and be seen on the dashboard, with one server hosting all of it.
+
+What separates this build from a campus pilot is mostly data. Every dataset is read through one loader, and every service computes its result from what the loader returns. Replacing a simulated file with a real feed changes the loader, not the services, the API or the apps.
+
+| Simulated today | Real source for a pilot | Work needed |
+| --- | --- | --- |
+| Hazard reports | Students, through the one-tap report | None. Already live in the app. |
+| Walkers | Opt-in walks started in the app | Read the walks the API already holds. |
+| Incidents | Published campus safety alert text | Feed it to the existing extraction step. |
+| Streetlights, ride requests, schedule | Facilities, transit and calendar records | Loader only. The models retrain when the data changes. |
+
+Beyond data, a pilot needs USC single sign-on and real delivery of pod and contact notifications. The full plan is in the [technical documentation](docs/technical-documentation.pdf).
+
 ## Run it
 
 Backend (Python 3.9 or newer):
@@ -152,9 +169,9 @@ docs             design doc and team guides
 
 | | Built |
 | --- | --- |
-| [Ria Jha](https://github.com/riajha-usc) | API, voice trigger, alerts, live updates |
-| [Soham Banerjee](https://github.com/Soham286) | Street graph, routing, pod matching, forecast, simulated data |
+| [Ria Jha](https://github.com/riajha-usc) | Project lead. System architecture and API contract. The real-time voice trigger pipeline: audio intake, Groq Whisper, signal fusion and alerting. ML and LLM service integration, live updates, tests and deployment |
+| [Soham Banerjee](https://github.com/Soham286) | Street graph, routing, pod matching, LLM incident extraction and hazard summaries, forecast, simulated data |
 | [Arin Paul](https://github.com/ArinPaul) | Campus Pulse dashboard, shared map and API client |
 | [Sharayu Nagre](https://github.com/sharayu-n) | Student app: planning, Walk Mode, countdown, alert screens |
 
-The design doc and build guides are in [`docs`](docs).
+Architecture, the AI pipeline, the API reference and the pilot plan are in the [technical documentation](docs/technical-documentation.pdf). The design doc and build guides are also in [`docs`](docs).
