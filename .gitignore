@@ -17,8 +17,10 @@ dist/
 
 # generated or large data
 backend/data/generated/
-backend/data/cache/
+backend/data/cache/*
 *.graphml
+# the USC street graph is committed so the demo never depends on a download
+!backend/data/cache/usc_walk.graphml
 
 # editors and OS
 .DS_Store

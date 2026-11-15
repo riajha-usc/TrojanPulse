@@ -8,11 +8,13 @@ run produces the same files and the demo looks the same at every rehearsal.
 ## Setup (run once, from the `backend` folder)
 
 ```bash
-python data/download_graph.py   # needs internet once; saves data/cache/usc_walk.graphml
 python -m data.generate         # writes every simulated dataset to data/generated/
 ```
 
-Both output folders are ignored by git. Re-run `python -m data.generate` any time to recreate them.
+The street graph (`data/cache/usc_walk.graphml`) is committed, so no download is needed.
+`data/generated/` is ignored by git; re-run `python -m data.generate` any time to recreate it.
+Only run `python data/download_graph.py` to refresh the graph from OpenStreetMap (needs internet),
+then regenerate the data, since streetlights are placed on the graph's streets.
 Set `GROQ_API_KEY` first to have the LLM extract incidents; without it, a rule-based parser does it.
 
 ## Files
