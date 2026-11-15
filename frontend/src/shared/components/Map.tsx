@@ -212,15 +212,11 @@ export default function Map({
           const positions = r.path.map(toTuple);
           return r.highlighted ? (
             <Fragment key={`${r.kind}-${i}`}>
-              <Polyline positions={positions} pathOptions={{ className: "tp-route-glow" }} />
-              <Polyline positions={positions} pathOptions={{ className: "tp-route-main" }} />
+              <Polyline positions={positions} className="tp-route-glow" />
+              <Polyline positions={positions} className="tp-route-main" />
             </Fragment>
           ) : (
-            <Polyline
-              key={`${r.kind}-${i}`}
-              positions={positions}
-              pathOptions={{ className: "tp-route-alt" }}
-            />
+            <Polyline key={`${r.kind}-${i}`} positions={positions} className="tp-route-alt" />
           );
         })}
 
@@ -229,7 +225,7 @@ export default function Map({
             key={h.id}
             center={toTuple(h.location)}
             radius={7}
-            pathOptions={{ className: "tp-map-hazard" }}
+            className="tp-map-hazard"
           >
             <Tooltip
               permanent
@@ -243,32 +239,19 @@ export default function Map({
         ))}
 
         {start && (
-          <CircleMarker
-            center={toTuple(start)}
-            radius={7}
-            pathOptions={{ className: "tp-map-start" }}
-          >
+          <CircleMarker center={toTuple(start)} radius={7} className="tp-map-start">
             <PlaceLabel text={start.label} direction={destinationIsWest ? "left" : "right"} />
           </CircleMarker>
         )}
 
         {destination && (
-          <CircleMarker
-            center={toTuple(destination)}
-            radius={9}
-            pathOptions={{ className: "tp-map-destination" }}
-          >
+          <CircleMarker center={toTuple(destination)} radius={9} className="tp-map-destination">
             <PlaceLabel text={destination.label} direction={destinationIsWest ? "right" : "left"} />
           </CircleMarker>
         )}
 
         {podPositions?.map((p, i) => (
-          <CircleMarker
-            key={`pod-${i}`}
-            center={toTuple(p)}
-            radius={6}
-            pathOptions={{ className: "tp-map-pod" }}
-          />
+          <CircleMarker key={`pod-${i}`} center={toTuple(p)} radius={6} className="tp-map-pod" />
         ))}
 
         {position && (
@@ -277,13 +260,9 @@ export default function Map({
               center={toTuple(position)}
               radius={18}
               interactive={false}
-              pathOptions={{ className: "tp-map-you-halo" }}
+              className="tp-map-you-halo"
             />
-            <CircleMarker
-              center={toTuple(position)}
-              radius={8}
-              pathOptions={{ className: "tp-map-you" }}
-            />
+            <CircleMarker center={toTuple(position)} radius={8} className="tp-map-you" />
           </>
         )}
 
